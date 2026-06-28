@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispute Management · AR Accelerator</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23F08C1E'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EAR%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+  .ev-row{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .ev-ic{width:30px;height:30px;border-radius:8px;background:var(--info-tint);color:var(--info);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .ev-rel{width:64px;height:6px;border-radius:4px;background:var(--panel-3);overflow:hidden;display:inline-block}
+  .ev-rel i{display:block;height:100%;background:var(--info)}
+  .seg{display:inline-flex;background:var(--panel-2);border:1px solid var(--line-2);border-radius:9px;padding:2px;gap:2px}
+  .seg button{padding:5px 12px;border-radius:7px;font-size:11.5px;color:var(--ink-2);font-weight:500}
+  .seg button.on{background:var(--orange);color:#fff}
+  .stage-pipe{display:flex;gap:8px}
+  .stage-pipe .sp{flex:1;border:1px solid var(--line);border-radius:10px;padding:13px;background:var(--panel)}
+  .stage-pipe .sp .n{font-size:20px;font-weight:600;font-family:var(--mono)}
+  .stage-pipe .sp .l{font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px}
+  .win{height:8px;border-radius:5px;background:var(--panel-3);overflow:hidden;width:100%}
+  .win i{display:block;height:100%}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="trust">
+    <span class="dot"></span><span>SAP FSCM-DM <b>connected</b></span><span class="sep"></span>
+    <span>Case API <b>UDM_DISPUTE_CREATE / CHANGE</b></span><span class="sep"></span>
+    <span>Evidence sources <b>SD · Logistics · CLM</b></span>
+    <span class="spacer"></span><span class="mono" id="trustMeta">—</span>
+  </div>
+  <div class="head">
+    <div class="mlogo">DI</div>
+    <div><div class="title">Dispute Management</div><div class="sub">Capture · classify · investigate · resolve · analyze</div></div>
+    <div class="spacer"></div>
+    <div class="hkpi"><div class="v" id="hOpen">—</div><div class="l">Open cases</div></div>
+    <div class="hkpi"><div class="v" id="hDays">—</div><div class="l">Avg resolution</div></div>
+    <div class="hkpi"><div class="v" id="hWin">—</div><div class="l">Predicted recovery</div></div>
+    <button class="btn ghost" id="themeBtn" title="Toggle theme" style="margin-left:8px"></button>
+    <button class="btn ghost" id="cmdBtn" title="Command Center"></button>
+  </div>
+  <div class="body">
+    <div class="nav" id="nav"></div>
+    <div class="main with-rail" id="content"></div>
+    <div class="rail">
+      <div class="rail-h"><span class="t">Dispute Agents · Live</span><span class="live"><span class="d"></span>STREAMING</span></div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+</div>
+<script src="assets/js/static-flag.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/disputes.js"></script>
+</body>
+</html>

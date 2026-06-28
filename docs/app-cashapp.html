@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cash Application · AR Accelerator</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23F08C1E'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EAR%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+  .chan-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .chan-ic{width:34px;height:34px;border-radius:9px;background:var(--orange-tint);color:var(--orange-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .conf-bar{height:6px;border-radius:4px;background:var(--panel-3);width:80px;overflow:hidden;display:inline-block;vertical-align:middle}
+  .conf-bar i{display:block;height:100%;background:var(--ok)}
+  .conf-bar.lo i{background:var(--risk)}.conf-bar.mid i{background:var(--warn)}
+  .seg{display:inline-flex;background:var(--panel-2);border:1px solid var(--line-2);border-radius:9px;padding:2px;gap:2px}
+  .seg button{padding:5px 12px;border-radius:7px;font-size:11.5px;color:var(--ink-2);font-weight:500}
+  .seg button.on{background:var(--orange);color:#fff}
+  .remit{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:11px;font-family:var(--mono);font-size:11px;color:var(--ink-2);white-space:pre-wrap;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="trust">
+    <span class="dot"></span><span>SAP FI-AR <b>connected</b></span><span class="sep"></span>
+    <span>Posting BAPI <b>BAPI_ACC_DOCUMENT_POST</b></span><span class="sep"></span>
+    <span>Bank feeds <b>BAI2 · MT940 · camt.053</b></span>
+    <span class="spacer"></span>
+    <span class="mono" id="trustMeta">—</span>
+  </div>
+  <div class="head">
+    <div class="mlogo">CA</div>
+    <div><div class="title">Cash Application</div><div class="sub">Remittance capture · 5-layer matching · straight-through posting</div></div>
+    <div class="spacer"></div>
+    <div class="hkpi"><div class="v" id="hMatch">—</div><div class="l">Match rate</div></div>
+    <div class="hkpi"><div class="v" id="hUnapplied">—</div><div class="l">Unapplied</div></div>
+    <div class="hkpi"><div class="v" id="hExc">—</div><div class="l">Exceptions</div></div>
+    <button class="btn ghost" id="themeBtn" title="Toggle theme" style="margin-left:8px"></button>
+    <button class="btn ghost" id="cmdBtn" title="Command Center"></button>
+  </div>
+  <div class="body">
+    <div class="nav" id="nav"></div>
+    <div class="main with-rail" id="content"></div>
+    <div class="rail">
+      <div class="rail-h"><span class="t">Cash App Agents · Live</span><span class="live"><span class="d"></span>STREAMING</span></div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+</div>
+<script src="assets/js/static-flag.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/cashapp.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deductions Management · AR Accelerator</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23F08C1E'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EAR%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+  .seg{display:inline-flex;background:var(--panel-2);border:1px solid var(--line-2);border-radius:9px;padding:2px;gap:2px}
+  .seg button{padding:5px 12px;border-radius:7px;font-size:11.5px;color:var(--ink-2);font-weight:500}
+  .seg button.on{background:var(--orange);color:#fff}
+  .stage-pipe{display:flex;gap:7px}
+  .stage-pipe .sp{flex:1;border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--panel)}
+  .stage-pipe .sp .n{font-size:19px;font-weight:600;font-family:var(--mono)}
+  .stage-pipe .sp .l{font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.4px}
+  .vbadge{display:inline-flex;align-items:center;gap:5px;font-weight:600;font-size:11px;padding:2px 9px;border-radius:20px}
+  .vbadge.valid{background:var(--ok-tint);color:var(--ok)}.vbadge.invalid{background:var(--risk-tint);color:var(--risk)}.vbadge.review{background:var(--warn-tint);color:var(--warn)}
+  .promo-card{border:1px solid var(--line-2);border-radius:10px;padding:13px;background:var(--panel-2)}
+  .doc-chip{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-family:var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:3px 8px;border-radius:6px;margin:0 4px 4px 0}
+  .split-bar{display:flex;height:30px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .split-bar .t{background:var(--orange-tint);color:var(--orange-soft);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+  .split-bar .nt{background:var(--info-tint);color:var(--info);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="trust">
+    <span class="dot"></span><span>SAP FSCM-DM + SD-TPM <b>connected</b></span><span class="sep"></span>
+    <span>TPM <b>SAP TPM · Exceedra</b></span><span class="sep"></span>
+    <span>Claim capture <b>portals · email · remittance</b></span>
+    <span class="spacer"></span><span class="mono" id="trustMeta">—</span>
+  </div>
+  <div class="head">
+    <div class="mlogo">DE</div>
+    <div><div class="title">Deductions Management</div><div class="sub">Capture · classify · validate · match · resolve · analyze</div></div>
+    <div class="spacer"></div>
+    <div class="hkpi"><div class="v" id="hOpen">—</div><div class="l">Open</div></div>
+    <div class="hkpi"><div class="v" id="hValid">—</div><div class="l">Auto-validation</div></div>
+    <div class="hkpi"><div class="v" id="hRec">—</div><div class="l">Recovered</div></div>
+    <button class="btn ghost" id="themeBtn" title="Toggle theme" style="margin-left:8px"></button>
+    <button class="btn ghost" id="cmdBtn" title="Command Center"></button>
+  </div>
+  <div class="body">
+    <div class="nav" id="nav"></div>
+    <div class="main with-rail" id="content"></div>
+    <div class="rail">
+      <div class="rail-h"><span class="t">Deduction Agents · Live</span><span class="live"><span class="d"></span>STREAMING</span></div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+</div>
+<script src="assets/js/static-flag.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/deductions.js"></script>
+</body>
+</html>

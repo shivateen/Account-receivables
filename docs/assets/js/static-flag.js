@@ -1,0 +1,1 @@
+window.__AR_STATIC__=true;

@@ -9,7 +9,8 @@
     "seed": "node server/seed.js",
     "dev": "node --watch server/index.js",
     "test:smoke": "node tests/smoke.mjs",
-    "test:interact": "node tests/interact.mjs"
+    "test:interact": "node tests/interact.mjs",
+    "build:static": "node scripts/export-static.mjs"
   },
   "engines": {
     "node": ">=22"
