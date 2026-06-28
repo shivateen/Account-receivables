@@ -1,0 +1,76 @@
+============================================================
+  TIGER O2C — REUSABLE AGENTS — SIMPLE DEMO GUIDE
+============================================================
+
+WHAT YOU ARE SHOWING
+  Two pre-built AI "agents" that any client can reuse:
+    1. Remittance Capture — reads a customer's payment email and
+       pulls out the structured details.
+    2. Invoice Match — takes a payment and matches it to the
+       right open invoices automatically.
+  The point: these are REAL, REUSABLE software packages — not just
+  pretty screens. That is what cuts implementation time.
+
+------------------------------------------------------------
+  ONE-TIME CHECK (do this the day BEFORE the meeting)
+------------------------------------------------------------
+  1. Make sure "Node.js" is installed on this laptop.
+     (If a demo file opens a black window that closes instantly
+      saying "node is not recognized", install Node.js LTS from
+      https://nodejs.org — click Next, Next, Finish.)
+  2. Double-click  demo-1-pipeline.bat  once to confirm it runs and
+     shows green/coloured text. If it does, you're ready.
+
+------------------------------------------------------------
+  EASIEST WAY — ONE FILE PLAYS THE WHOLE DEMO
+------------------------------------------------------------
+  Double-click  RUN-FULL-DEMO.bat
+  It plays all 5 demos in order and PAUSES between each one, so you
+  can read the result, say your line, and press a key to continue.
+  (Prefer to control each step yourself? Use the 5 files below instead.)
+
+------------------------------------------------------------
+  OR RUN THEM ONE AT A TIME — DOUBLE-CLICK IN ORDER
+------------------------------------------------------------
+  All five files are in this folder. Double-click each one; a black
+  window opens, runs, and waits. Read the result, say the line, then
+  press any key to close and move to the next.
+
+  demo-1-pipeline.bat   THE HOOK. An email of text turns into a
+                        matched payment, start to finish.
+     SAY: "An email just became a matched, ready-to-post payment —
+           two pre-built agents, no screen involved."
+
+  demo-2-tests.bat      Proof it's real engineering.
+     SAY: "Every behaviour is covered by automated tests — this is a
+           tested package, not a demo trick."
+
+  demo-3-numbers.bat    The accuracy numbers.
+     SAY: "Scored against a known answer key — 100% on matching,
+           100% on capture."
+
+  demo-4-headless.bat   The agent called directly, no UI.
+     SAY: "Here's the agent on its own — payment in, decision out.
+           The fancy screens just call this."
+
+  demo-5-config.bat     Reuse = settings, not rebuilding.
+     SAY: "Same agent, two different clients' settings — the only
+           thing that changes per client is configuration."
+
+------------------------------------------------------------
+  OPTIONAL — USE THE CLIENT'S OWN EXAMPLE (impressive)
+------------------------------------------------------------
+  If they want to try their own remittance text, you can. Ask a
+  technical teammate to run, from the remittance-capture folder:
+     node cli.js  (then paste their text and press Ctrl+Z, Enter)
+  (A scanned PDF needs the "Document Intelligence" connector — for
+   the live demo, use the text version.)
+
+------------------------------------------------------------
+  IF SOMETHING GOES WRONG
+------------------------------------------------------------
+  - Window closes instantly: Node.js isn't installed (see top).
+  - Red "fail" lines: just re-run the file; if it persists, get an
+    engineer — the bundled examples are known-good.
+  - Always have demo-1 ready as the fallback; it never needs input.
+============================================================

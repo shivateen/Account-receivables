@@ -258,13 +258,628 @@ a { color: inherit; text-decoration: none; }
 .card-tight { background: var(--surface); border: 0.5px solid var(--line); border-radius: var(--radius); padding: 18px; }
 .card-loose { background: var(--surface); border: 0.5px solid var(--line); border-radius: var(--radius); padding: 26px; }
 
-.bench-grid { display:flex; gap:8px; }
-.metric-spark { width:160px; height:48px; display:block; }
-.stat-row { display:flex; gap:12px; align-items:center; }
+  .vision-hero {
+    padding: 40px 0 32px;
+    border-bottom: 0.5px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .vision-hero .eyebrow { margin-bottom: 18px; }
+  .vision-hero .h1 { max-width: 22ch; margin-bottom: 18px; }
+  .vision-hero .lede { max-width: 60ch; }
 
-.meta { color: var(--ink-3); font-size: 12px; }
+  .maturity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .pillar-card {
+    background: var(--surface);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .pillar-card .eyebrow { color: var(--accent); }
+  .pillar-name {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .pillar-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .maturity-track {
+    position: relative;
+    margin-top: 8px;
+    padding-top: 24px;
+  }
+  .maturity-bar {
+    position: relative;
+    height: 4px;
+    background: var(--bg-3);
+    border-radius: 2px;
+  }
+  .maturity-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: var(--ink-2);
+    border-radius: 2px;
+  }
+  .maturity-marker {
+    position: absolute;
+    top: -7px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    transform: translateX(-50%);
+  }
+  .maturity-marker.target { background: var(--accent); border-color: var(--accent); }
+  .maturity-marker-label {
+    position: absolute;
+    top: -28px;
+    transform: translateX(-50%);
+    font-size: 9px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+  .maturity-stages {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--ink-4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .pillar-gap {
+    display: flex;
+    gap: 24px;
+    padding-top: 8px;
+    border-top: 0.5px solid var(--line);
+    margin-top: 4px;
+  }
+  .pillar-gap-item { display: flex; flex-direction: column; gap: 2px; }
+  .pillar-gap-label {
+    font-size: 10px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-family: var(--mono);
+  }
+  .pillar-gap-val {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .vision-prize {
+    margin-top: 40px;
+    padding: 32px 40px;
+    background: var(--surface);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .prize-stat {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .prize-stat-label {
+    font-size: 11px;
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-top: 12px;
+  }
+  .prize-narrative { font-size: 14px; line-height: 1.7; color: var(--ink-2); }
+  .prize-narrative b { color: var(--ink); font-weight: 500; }
 
-@media (max-width: 1100px) {
+  .signal-summary {
+    margin-bottom: 24px;
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--ink);
+    max-width: 56ch;
+  }
+  .signal-card {
+    background: var(--surface);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 12px;
+    position: relative;
+    transition: border-color 0.15s;
+  }
+  .signal-card:hover { border-color: var(--line-strong); }
+  .signal-card.alert { border-left: 2px solid var(--alert); }
+  .signal-card.warn { border-left: 2px solid var(--warn); }
+  .signal-card.info { border-left: 2px solid var(--accent); }
+
+  .signal-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .signal-pattern {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .signal-conf { margin-left: auto; font-size: 11px; color: var(--ink-3); }
+
+  .signal-headline {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 14px;
+    max-width: 56ch;
+  }
+  .signal-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin-bottom: 14px;
+    max-width: 68ch;
+  }
+  .signal-body p { margin-bottom: 10px; }
+  .signal-body p:last-child { margin-bottom: 0; }
+  .signal-body b { color: var(--ink); font-weight: 500; }
+
+  .signal-footer {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--line);
+  }
+  .signal-footer .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .signal-footer .stat-label {
+    font-size: 9px;
+    font-family: var(--mono);
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .signal-footer .stat-val {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .signal-footer .actions { margin-left: auto; display: flex; gap: 20px; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-bottom: 20px;
+  }
+  .breadcrumb a { cursor: pointer; }
+  .breadcrumb a:hover { color: var(--ink); }
+  .breadcrumb .sep { color: var(--ink-4); }
+  .breadcrumb .current { color: var(--ink); }
+
+  .descent-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 0.5px solid var(--line);
+  }
+  .descent-header .eyebrow { margin-bottom: 10px; }
+  .descent-header .h2 { max-width: 40ch; margin-bottom: 12px; }
+  .descent-header .lede { max-width: 64ch; }
+
+  .roadmap-hero {
+    padding-bottom: 24px;
+    border-bottom: 0.5px solid var(--line);
+    margin-bottom: 28px;
+  }
+  .roadmap-timeline {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .phase {
+    border-left: 0.5px solid var(--line-2);
+    padding: 0 0 32px 24px;
+    margin-left: 8px;
+    position: relative;
+  }
+  .phase::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 0;
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1.5px solid var(--ink);
+  }
+  .phase.open { border-left-color: var(--ink); }
+  .phase-meta {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .phase-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 12px;
+    max-width: 32ch;
+  }
+  .phase-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin-bottom: 16px;
+    max-width: 60ch;
+  }
+  .phase-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .phase-item {
+    background: var(--bg-2);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  .phase-item-label {
+    font-size: 9px;
+    font-family: var(--mono);
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .phase-item-text {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .phase-prize {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--ok-tint);
+    border-left: 2px solid var(--ok);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .phase-prize b { color: var(--ok); font-weight: 500; }
+
+  .agent-container { max-width: 760px; }
+  .agent-intro { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 0.5px solid var(--line); }
+  .agent-suggestion-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .agent-suggestion {
+    padding: 8px 14px;
+    border: 0.5px solid var(--line-2);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all 0.12s;
+    background: var(--surface);
+  }
+  .agent-suggestion:hover { border-color: var(--agent); color: var(--ink); background: var(--agent-tint); }
+
+  .agent-context {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--bg-2);
+    border: 0.5px solid var(--line);
+    border-radius: 20px;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  .agent-context .dot { background: var(--agent); width: 8px; height: 8px; border-radius: 50%; }
+
+  .msg-user { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+  .msg-user-bubble {
+    background: var(--bg-2);
+    border: 0.5px solid var(--line);
+    padding: 10px 14px;
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    max-width: 75%;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .msg-agent {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .msg-agent::before {
+    content: '';
+    width: 2px;
+    background: var(--agent);
+    flex-shrink: 0;
+    border-radius: 2px;
+  }
+  .msg-agent-body {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+  .msg-agent-body h4 {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+  .msg-agent-body p { margin-bottom: 12px; }
+  .msg-agent-body p:last-child { margin-bottom: 0; }
+  .msg-agent-body ul { padding-left: 20px; margin-bottom: 12px; }
+  .msg-agent-body li { margin-bottom: 6px; }
+  .msg-agent-body b { color: var(--ink); font-weight: 500; }
+
+  .agent-mode-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 28px;
+    border-bottom: 0.5px solid var(--line);
+  }
+  .agent-mode-tab {
+    padding: 10px 18px 12px;
+    font-size: 13px;
+    color: var(--ink-3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -0.5px;
+    font-weight: 500;
+  }
+  .agent-mode-tab:hover { color: var(--ink-2); }
+  .agent-mode-tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--agent);
+  }
+  .agent-mode-tab .count {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--ink-3);
+    margin-left: 4px;
+  }
+
+  .agent-cat-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .agent-cat-card {
+    background: var(--surface);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    align-items: start;
+    transition: border-color 0.15s;
+  }
+  .agent-cat-card:hover { border-color: var(--line-strong); }
+  .agent-cat-card.armed { border-left: 2px solid var(--agent); }
+  .agent-cat-card.dormant { opacity: 0.85; }
+
+  .agent-cat-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--agent-tint);
+    color: var(--agent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .agent-cat-icon svg { width: 18px; height: 18px; stroke-width: 1.5; }
+
+  .agent-cat-body { min-width: 0; }
+  .agent-cat-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .agent-cat-id {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--agent);
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .agent-cat-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .agent-cat-state {
+    font-size: 9px;
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 8px;
+  }
+  .agent-cat-state.armed { background: var(--agent-tint); color: var(--agent); }
+  .agent-cat-state.dormant { background: var(--bg-2); color: var(--ink-3); }
+  .agent-cat-state.executing { background: var(--ok-tint); color: var(--ok); }
+
+  .agent-cat-desc {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+    max-width: 72ch;
+  }
+  .agent-cat-meta { font-size: 12px; color: var(--ink-3); }
+
+  .metrics-areas {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .area-card {
+    background: var(--surface);
+    border: 0.5px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .area-card:hover { border-color: var(--line-strong); }
+  .area-card.open { border-color: var(--line-strong); }
+  .area-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.12s;
+  }
+  .area-head:hover { background: var(--surface-2); }
+  .area-head-main { flex: 1; min-width: 0; }
+  .area-name {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .area-desc {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+  .area-summary {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+  }
+  .area-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+  }
+  .area-stat .stat-val { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--ink); }
+  .area-stat .stat-label { font-size: 10px; font-family: var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .bench-grid { display:flex; gap:8px; flex-wrap: wrap; }
+  .metric-spark { width:160px; height:48px; display:block; }
+  .stat-row { display:flex; gap:12px; align-items:center; }
+
+  .grid-2 { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:16px; }
+  .grid-3 { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:16px; }
+  .detail-grid { display:grid; grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.4fr); gap:18px; }
+  .value-block { border: 0.5px solid var(--line); background: var(--bg-2); border-radius: var(--radius); padding: 16px; }
+  .value-block .meta { margin-bottom: 6px; }
+  .value-block .value { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--ink); }
+  .detail-actions { display:flex; gap:12px; flex-wrap: wrap; margin-top: 16px; }
+  .section-actions { display:flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+  .section-grid { display:grid; gap:16px; margin-top:18px; }
+  .section-spaced { margin-top: 28px; }
+  .margin-top-sm { margin-top: 8px; }
+  .margin-top-xs { margin-top: 6px; }
+  .step-label { margin-top:4px; }
+  .recommend-grid { display:grid; gap:12px; margin-top:14px; }
+  .pillar-card[data-current] .maturity-fill { width: 0%; }
+  .pillar-card[data-current] .maturity-marker.current { left: 0%; }
+  .pillar-card[data-target] .maturity-marker.target { left: 0%; }
+  .back-link { display:inline-flex; align-items:center; gap:8px; color: var(--ink-2); font-size:13px; cursor:pointer; }
+  .back-link:hover { color: var(--ink); }
+  .signal-list { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
+  .kpi-delta { margin-top:6px; color: var(--ink-3); }
+  .btn-arrow { display:inline-flex; align-items:center; justify-content:center; gap:6px; }
+  .evidence-list { display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+  .context-footer { margin-top:12px; padding-top:12px; border-top:0.5px solid var(--line); color:var(--ink-3); display:flex; gap:10px; align-items:center; }
+  .context-flag { width:20px; height:20px; background:var(--agent); border-radius:4px; flex-shrink:0; }
+  .agent-chat-panel { display:flex; flex-direction:column; gap:12px; }
+  .agent-chat-input { display:flex; gap:8px; margin-top:12px; }
+  .agent-chat-input input { flex:1; border: 0.5px solid var(--line); border-radius: var(--radius); padding: 12px 14px; background: var(--surface); color: var(--ink); }
+  .agent-chat-input input:focus { outline: none; border-color: var(--accent); }
+  .agent-cat-actions { display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+  .card-clickable { cursor:pointer; }
+  .card-clickable:hover { background: var(--surface-2); }
+  .metric-detail-grid { display:grid; grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.4fr); gap:18px; margin-top:12px; }
+  .metric-root { margin-top:8px; color:var(--ink-2); }
+  .stats-grid { display:grid; gap:12px; margin-top:14px; }
+  .action-line { margin-top:8px; }
+  .rail-footer { margin-top:auto; padding-top:16px; }
+  .small-table { width:100%; border-collapse:collapse; }
+  .small-table th, .small-table td { padding: 10px 12px; text-align:left; border-bottom: 0.5px solid var(--line); }
+  .small-table th { color: var(--ink-3); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .small-table td { color: var(--ink-2); }
+  .small-table td:first-child { color: var(--accent); font-family: var(--mono); }
+  .config-panel { display:grid; grid-template-columns: 360px 1fr; gap:16px; }
+  .org-card { min-width: 320px; }
+  .org-grid { display:flex; gap:12px; flex-wrap:wrap; }
+  .org-grid .card { flex:1; }
+  .org-rows { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:18px; margin-top:12px; }
+  .org-pill { padding:6px 10px; border-radius: 999px; background: var(--bg-2); font-size: 12px; }
+  .kpi-grid { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:12px; }
+  .kpi-card { padding: 18px; }
+  .kpi-value { font-family: var(--serif); font-size: 22px; font-weight: 700; margin-top: 8px; }
+
+  .h2 { font-family: var(--serif); font-size: 30px; line-height: 1.1; color: var(--ink); margin: 12px 0; }
+  .h3 { font-family: var(--serif); font-size: 22px; line-height: 1.2; color: var(--ink); }
+  .agent-suggestion-row { margin-bottom: 32px; }
+
+  .light-mode .signal-card.alert { border-left-color: var(--alert); }
+  .light-mode .signal-card.warn { border-left-color: var(--warn); }
+
+  .meta { color: var(--ink-3); font-size: 12px; }
   .page { padding: 24px 28px 48px; }
 }
 @media (max-width: 700px) {
@@ -323,45 +938,32 @@ function renderPillarCard(p) {
   const stageCount = p.stages.length - 1;
   const currentPct = (p.currentStage / stageCount) * 100;
   const targetPct = (p.targetStage / stageCount) * 100;
-  return `<div class="card card-tight" style="min-width: 260px; margin-right:12px;">
+  return `<div class="pillar-card" data-current="${currentPct}" data-target="${targetPct}">
     <div class="eyebrow">${p.eyebrow}</div>
-    <div style="font-family:var(--serif); font-size:18px; margin-top:6px; font-weight:500;">${p.name}</div>
-    <div class="meta" style="margin-top:8px;">${p.desc}</div>
-    <div style="margin-top:12px;">
-      <div style="background:var(--bg-2); height:8px; border-radius:6px; position:relative; overflow:hidden;">
-        <div style="background:var(--accent); width:${currentPct}%; height:100%;"></div>
-        <div style="position:absolute; left:${targetPct}%; top:-6px; transform:translateX(-50%); font-size:10px; color:var(--ink-3);">M18</div>
-      </div>
+    <div class="pillar-name">${p.name}</div>
+    <div class="pillar-desc">${p.desc}</div>
+    <div class="maturity-track">
+      <div class="maturity-bar"><div class="maturity-fill"></div></div>
+      <div class="maturity-marker current"><span class="maturity-marker-label">Current</span></div>
+      <div class="maturity-marker target"><span class="maturity-marker-label">M18</span></div>
+      <div class="maturity-stages">${p.stages.map(stage => `<span>${stage}</span>`).join('')}</div>
     </div>
-    <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:12px; color:var(--ink-3);">
-      <div>${p.gap.label} · ${p.gap.current}</div>
-      <div style="color:var(--accent);">${p.gap.future}</div>
+    <div class="pillar-gap">
+      <div class="pillar-gap-item"><div class="pillar-gap-label">${p.gap.label}</div><div class="pillar-gap-val">${p.gap.current}</div></div>
+      <div class="pillar-gap-item"><div class="pillar-gap-label">Target</div><div class="pillar-gap-val">${p.gap.future}</div></div>
     </div>
   </div>`;
 }
 
 function renderOrgCard(org, kind) {
-  return `<div class="card card-tight" style="flex:1; margin-right:12px;">
+  return `<div class="card card-tight org-card">
     <div class="eyebrow">${kind === 'today' ? 'Today' : 'Month 18'}</div>
-    <div style="font-family:var(--serif); font-size:18px; margin-top:6px; font-weight:500;">${org.label}</div>
-    <div style="display:flex; gap:18px; margin-top:12px;">
-      <div>
-        <div class="meta">O2C headcount</div>
-        <div style="font-family:var(--serif); font-size:20px; font-weight:600; margin-top:6px;">${org.headcount}</div>
-        <div class="tiny muted">${org.headcountLabel}</div>
-      </div>
-      <div>
-        <div class="meta">Close cadence</div>
-        <div style="font-family:var(--serif); font-size:20px; font-weight:600; margin-top:6px;">${org.monthEndDays}d</div>
-        <div class="tiny muted">${org.closeLabel}</div>
-      </div>
+    <div class="h3 margin-top-xs">${org.label}</div>
+    <div class="org-rows">
+      <div class="value-block"><div class="meta">O2C headcount</div><div class="value">${org.headcount}</div><div class="meta">${org.headcountLabel}</div></div>
+      <div class="value-block"><div class="meta">Close cadence</div><div class="value">${org.monthEndDays}d</div><div class="meta">${org.closeLabel}</div></div>
     </div>
-    <div style="margin-top:12px;">
-      <div class="meta">Roles & headcount mix</div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
-        ${org.roles.map(r => `<div style="padding:6px 8px; border-radius:6px; background:var(--bg-2); font-size:13px;">${r.name} · ${r.count}</div>`).join('')}
-      </div>
-    </div>
+    <div class="margin-top-sm"><div class="meta">Roles & headcount mix</div><div class="org-grid">${org.roles.map(r => `<div class="org-pill">${r.name} · ${r.count}</div>`).join('')}</div></div>
   </div>`;
 }
 
@@ -409,7 +1011,7 @@ function renderShell() {
           ${renderNavItem('roadmap', 'Roadmap')}
         </div>
         <div class="rail-divider"></div>
-        <div class="rail-section" style="margin-top: auto; padding-top: 16px;">
+        <div class="rail-section rail-footer">
           <div class="rail-section-label">Setup</div>
           ${renderNavItem('configure', 'Trust foundation')}
         </div>
@@ -437,10 +1039,12 @@ function renderPage() {
   if (!main) return;
   if (STATE.selectedSignal) {
     main.innerHTML = renderDescent(STATE.selectedSignal);
+    updateMaturityMarkers();
     return;
   }
   if (STATE.selectedMetric) {
     main.innerHTML = renderMetricDetail(STATE.selectedMetric);
+    updateMaturityMarkers();
     return;
   }
   if (STATE.page === 'vision') main.innerHTML = renderVision();
@@ -449,6 +1053,20 @@ function renderPage() {
   else if (STATE.page === 'agent') main.innerHTML = renderAgent();
   else if (STATE.page === 'roadmap') main.innerHTML = renderRoadmap();
   else if (STATE.page === 'configure') main.innerHTML = renderConfigure();
+  updateMaturityMarkers();
+}
+
+function updateMaturityMarkers() {
+  document.querySelectorAll('.pillar-card').forEach(card => {
+    const current = Number(card.dataset.current) || 0;
+    const target = Number(card.dataset.target) || 0;
+    const fill = card.querySelector('.maturity-fill');
+    const currentMarker = card.querySelector('.maturity-marker.current');
+    const targetMarker = card.querySelector('.maturity-marker.target');
+    if (fill) fill.style.width = `${current}%`;
+    if (currentMarker) currentMarker.style.left = `${current}%`;
+    if (targetMarker) targetMarker.style.left = `${target}%`;
+  });
 }
 
 function renderVision() {
@@ -464,38 +1082,35 @@ function renderVision() {
       <span class="meta">Maturity assessment based on current baseline</span>
     </div>
 
-    <div style="display:flex; gap:12px; margin-bottom: 18px; overflow:auto; padding-bottom:6px;">
+    <div class="maturity-grid">
       ${VISION.pillars.map(p => renderPillarCard(p)).join('')}
     </div>
 
-    <div style="display:flex; gap:12px; align-items:center; margin-top: 8px;">
-      <div style="flex:0 0 220px;">
-        <div style="font-family:var(--serif); font-size:28px; font-weight:700;">${VISION.prize.stat}</div>
-        <div class="tiny muted">${VISION.prize.label}</div>
+    <div class="vision-prize">
+      <div>
+        <div class="prize-stat">${VISION.prize.stat}</div>
+        <div class="prize-stat-label">${VISION.prize.label}</div>
       </div>
-      <div class="card" style="flex:1;">
-        <div class="meta">Outcome narrative</div>
-        <div style="margin-top:8px; color:var(--ink-2);">${VISION.prize.narrative}</div>
-      </div>
+      <div class="prize-narrative">${VISION.prize.narrative}</div>
     </div>
 
-    <div class="section-head" style="margin-top: 28px;">
+    <div class="section-head section-spaced">
       <span class="eyebrow">North-star organisation design</span>
       <span class="meta">Operational destination by month 18</span>
     </div>
 
-    <div style="display:flex; gap:12px; margin-top:12px;">
+    <div class="section-actions">
       ${renderOrgCard(ORG_DESIGN.today, 'today')}
       ${renderOrgCard(ORG_DESIGN.future, 'future')}
     </div>
 
-    <div style="margin-top:18px;" class="card card-loose">
+    <div class="card card-loose section-spaced">
       <div class="eyebrow">The shift</div>
-      <h3 class="h3" style="margin-top:6px;">${ORG_DESIGN.narrative}</h3>
+      <h3 class="h3 margin-top-xs">${ORG_DESIGN.narrative}</h3>
     </div>
 
-    <div style="margin-top:18px; display:flex; gap:12px;">
-      <button class="btn btn-primary" onclick="navTo('roadmap')">See the roadmap <span class="icon">${ICONS.arrow}</span></button>
+    <div class="section-actions">
+      <button class="btn btn-primary btn-arrow" onclick="navTo('roadmap')">See the roadmap ${ICONS.arrow}</button>
       <button class="btn btn-secondary" onclick="navTo('diagnose')">See current diagnostics</button>
     </div>
   </div>`;
@@ -511,13 +1126,13 @@ function renderDiagnose() {
       </div>
     </div>
 
-    <p class="lede">Click Investigate on any signal to view the evidence ladder and recommended actions.</p>
+    <div class="signal-summary">Click Investigate on any signal to view the evidence ladder, the implicated metric, and recommended action.</div>
 
-    <div class="stack" style="display:flex; flex-direction:column; gap:14px; margin-top:18px;">
+    <div class="signal-list">
       ${signalList.map(s => renderSignalCard(s)).join('')}
     </div>
 
-    <div style="margin-top:28px;">${renderKpiSummary()}</div>
+    <div class="section-spaced">${renderKpiSummary()}</div>
   </div>`;
 }
 
@@ -567,29 +1182,38 @@ const SIGNALS = {
     lens: 'dispute', primaryMetric: 'dispute-resolve-time', armedAgent: 'agt-dispute-01', levers: [],
     ladder: [ { fact: 'Portal claims spike', why: 'High vendor deductions after promotion', source: 'bronze.portal_claims' } ],
     recommend: { title: 'Triage and automate claim classification to reduce investigator load', stats: [ { label: 'Estimated throughput', val: '−12d', sub: 'per case' } ] }
+  },
+  's-touch-01': {
+    id: 's-touch-01', severity: 'warn', pattern: 'CASH APP · TOUCHLESS GAP', confidence: 69,
+    headline: 'Touchless invoice acceptance lags due to portal remittance retakes',
+    body: '<p>18% of remits require manual review after portal submission, delaying day-to-day cash application.</p>',
+    stats: [ { label: 'TOUCHLESS', val: '62%' }, { label: 'RETAKES', val: '18%' } ],
+    lens: 'cash-application', primaryMetric: 'touchless-rate', armedAgent: 'agt-cash-02', levers: [],
+    ladder: [ { fact: 'Invoice portal returns 18% of remits for manual review', why: 'Nonstandard remittance formats', source: 'bronze.portal_remits' } ],
+    recommend: { title: 'Standardize remittance templates and automate portal intake', stats: [ { label: 'Estimated touchless lift', val: '14pp', sub: '90 days' } ] }
   }
 };
 
 function renderSignalCard(s) {
-  return `<div class="card" style="border-left:4px solid ${s.severity==='alert'? 'var(--alert)' : s.severity==='warn' ? 'var(--warn)' : 'var(--accent)'};">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
+  return `<div class="signal-card ${s.severity}">
+    <div class="signal-head">
       <div>
-        <div class="eyebrow">${s.pattern}</div>
-        <div style="font-family:var(--serif); font-size:16px; font-weight:600; margin-top:6px;">${s.headline}</div>
+        <div class="signal-pattern">${s.pattern}</div>
+        <div class="signal-headline">${s.headline}</div>
       </div>
-      <div style="text-align:right;">
-        <div class="meta">${s.confidence}% confidence</div>
-        <div style="margin-top:8px;">${s.stats.map(st=>`<div style="font-weight:600">${st.val}</div><div class="tiny muted">${st.label}</div>`).join('')}</div>
-      </div>
+      <div class="signal-conf">${s.confidence}% confidence</div>
     </div>
-    <div style="margin-top:10px; color:var(--ink-2);">${s.body}</div>
-    <div style="margin-top:12px; display:flex; gap:8px; align-items:center;"><button class="btn btn-primary" onclick="openSignal('${s.id}')">Investigate <span style="margin-left:6px;">›</span></button><button class="btn btn-secondary" onclick="navTo('metrics')">See metrics</button></div>
+    <div class="signal-body">${s.body}</div>
+    <div class="signal-footer">
+      ${s.stats.map(st=>`<div class="stat"><div class="stat-val">${st.val}</div><div class="stat-label">${st.label}</div></div>`).join('')}
+      <div class="actions"><button class="btn btn-primary btn-arrow" onclick="openSignal('${s.id}')">Investigate ›</button><button class="btn btn-secondary" onclick="navTo('metrics')">See metrics</button></div>
+    </div>
   </div>`;
 }
 
 function renderKpiSummary() {
   const kpis = [ { name: 'DSO', val: '47.3d', delta: '+1.4d', state: 'alert' }, { name: 'Auto-match', val: '38%', delta: '-3pp', state: 'warn' }, { name: 'Deduction validity', val: '7%', delta: '+1pp', state: 'warn' } ];
-  return `<div style="display:grid; grid-template-columns: repeat(3,1fr); gap:12px;">${kpis.map(k=>`<div class="card card-tight"><div class="eyebrow">${k.name}</div><div style="font-family:var(--serif); font-size:20px; font-weight:600; margin-top:6px;">${k.val}</div><div class="tiny muted" style="margin-top:6px;">${k.delta}</div></div>`).join('')}</div>`;
+  return `<div class="kpi-grid">${kpis.map(k=>`<div class="card card-tight kpi-card"><div class="eyebrow">${k.name}</div><div class="kpi-value">${k.val}</div><div class="tiny muted kpi-delta">${k.delta}</div></div>`).join('')}</div>`;
 }
 
 function openSignal(id) {
@@ -605,38 +1229,39 @@ function closeSignal() {
 function renderDescent(id) {
   const s = SIGNALS[id];
   if (!s) return '<div class="page">Signal not found</div>';
-  const sevColor = s.severity === 'alert' ? 'var(--alert)' : s.severity === 'warn' ? 'var(--warn)' : 'var(--accent)';
   return `<div class="page">
-    <div style="margin-bottom:10px;"><a onclick="closeSignal()">← Back to diagnose</a></div>
-    <div class="eyebrow" style="color:${sevColor};">${s.pattern} · ${s.confidence}% confidence</div>
-    <h2 style="font-family:var(--serif); margin-top:8px;">${s.headline}</h2>
-    <div style="margin-top:12px; color:var(--ink-2);">${s.body}</div>
-
-    <div style="margin-top:18px;">
-      <div class="eyebrow">Evidence ladder</div>
-      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
-        ${s.ladder.map((step,i)=>`<div style="padding:10px; border:0.5px solid var(--line); border-radius:6px;"><div style="font-weight:600;">STEP ${i+1}</div><div class="tiny muted">${step.source}</div><div style="margin-top:6px; color:var(--ink-2);">${step.fact}</div></div>`).join('')}
+    <div class="breadcrumb"><a onclick="closeSignal()">Diagnose</a><span class="sep">›</span><span class="current">${s.pattern}</span></div>
+    <div class="descent-header">
+      <div class="eyebrow ${s.severity}">${s.pattern} · ${s.confidence}% confidence</div>
+      <h2 class="h2">${s.headline}</h2>
+      <div class="lede">${s.body}</div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="eyebrow">Evidence ladder</div>
+        <div class="evidence-list">
+          ${s.ladder.map((step,i)=>`<div class="value-block"><div class="font-strong">STEP ${i+1}</div><div class="tiny muted step-label">${step.source}</div><div class="action-line">${step.fact}</div></div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Recommended action</div>
+        <div class="metric-root">${s.recommend.title}</div>
+        <div class="stats-grid">${s.recommend.stats.map(st=>`<div class="card card-tight"><div class="meta">${st.label}</div><div class="value">${st.val}</div><div class="tiny muted">${st.sub || ''}</div></div>`).join('')}</div>
+        <div class="detail-actions"><button class="btn btn-primary" onclick="alert('Approve: routing to Controller')">Approve and route</button><button class="btn btn-secondary" onclick="alert('Decline: open reason capture')">Decline</button></div>
       </div>
     </div>
-
-    <div style="margin-top:18px;">
-      <div class="eyebrow">Recommended action</div>
-      <div style="margin-top:8px; font-weight:600;">${s.recommend.title}</div>
-      <div style="margin-top:8px; display:flex; gap:12px;">${s.recommend.stats.map(st=>`<div class="card card-tight"><div class="meta">${st.label}</div><div style="font-family:var(--serif); font-size:18px; font-weight:700; margin-top:6px;">${st.val}</div><div class="tiny muted">${st.sub || ''}</div></div>`).join('')}</div>
-      <div style="margin-top:12px; display:flex; gap:8px;"><button class="btn btn-primary" onclick="alert('Approve: routing to Controller')">Approve and route</button><button class="btn btn-secondary" onclick="alert('Decline: open reason capture')">Decline</button></div>
-    </div>
-
-    <div style="margin-top:20px;">${renderContextFooter()}</div>
+    <div class="context-footer">${renderContextFooter()}</div>
   </div>`;
 }
 
 function renderContextFooter() {
-  return `<div style="margin-top:12px; padding-top:12px; border-top:0.5px solid var(--line); color:var(--ink-3); display:flex; gap:10px; align-items:center;"><div style="width:20px; height:20px; background:var(--agent); border-radius:4px;"></div><div>Interpreted via AR Context Layer · <span class="tiny muted">policy rules · mappings · patterns</span></div></div>`;
+  return `<div class="context-flag"></div><div>Interpreted via AR Context Layer · <span class="tiny muted">policy rules · mappings · patterns</span></div>`;
 }
 
 function renderMetrics() {
   const l2Metrics = Object.values(METRICS).filter(m => m.level === 'L2');
   const areas = Object.values(METRIC_AREAS);
+  const selectedArea = STATE.metricArea ? METRIC_AREAS[STATE.metricArea] : null;
   return `<div class="page fade-in">
     <div class="section-head">
       <div>
@@ -646,18 +1271,19 @@ function renderMetrics() {
       <div class="meta">${l2Metrics.length} L2 metrics · ${areas.length} areas</div>
     </div>
 
-    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      ${areas.map(a => `<div class="card card-tight" style="min-width:200px; flex:1; cursor:pointer;" onclick="goToMetricArea('${a.id}')"><div class="eyebrow">${a.name}</div><div style="margin-top:8px; color:var(--ink-2);">${a.desc}</div></div>`).join('')}
+    <div class="grid-2 section-spaced">
+      ${areas.map(a => `<div class="card card-tight card-clickable" onclick="goToMetricArea('${a.id}')"><div class="eyebrow">${a.name}</div><div class="metric-root">${a.desc}</div></div>`).join('')}
     </div>
 
-    <div style="margin-top:18px;">${renderAreaList()}</div>
+    ${selectedArea ? `<div class="section-actions"><button class="btn btn-secondary" onclick="STATE.metricArea=null; renderPage();">Back to all areas</button><span class="meta">Viewing ${selectedArea.name}</span></div>` : ''}
+    <div class="section-spaced">${renderAreaList(selectedArea)}</div>
   </div>`;
 }
 
 // Metric data
 const METRIC_AREAS = {
   'block-mgmt': { id: 'block-mgmt', name: 'Collections & Block Management', desc: 'Billing blocks, manual overrides, aging concentration', metrics: ['dso','block-hold-time'] },
-  'cash-app': { id: 'cash-app', name: 'Cash Application', desc: 'Auto-match, unapplied cash, remittance parsing', metrics: ['auto-match','unapplied-cash'] },
+  'cash-app': { id: 'cash-app', name: 'Cash Application', desc: 'Auto-match, unapplied cash, remittance parsing', metrics: ['auto-match','unapplied-cash','touchless-rate'] },
   'disputes': { id: 'disputes', name: 'Dispute Management', desc: 'Dispute backlog, resolution time', metrics: ['dispute-resolve-time'] },
   'deductions': { id: 'deductions', name: 'Deductions Management', desc: 'Deduction validity and recovery', metrics: ['deduction-validity'] }
 };
@@ -668,15 +1294,16 @@ const METRICS = {
   'top10-concentration': { id: 'top10-concentration', name: 'Top-10 concentration', level: 'L3', area: 'block-mgmt', val: 42, unit: '%', status: 'warn', bic: 20, median: 30, laggard: 55, vsplan: '+11pp', children: [], signal: 's-coll-01', rootCause: 'Skewed customer mix', actions: [ { p: 'p2', title: 'Segmented payment terms', impact: '$1.1M', effort: 'Low' } ] },
   'auto-match': { id: 'auto-match', name: 'Auto-match rate', level: 'L2', area: 'cash-app', val: 38, unit: '%', status: 'warn', bic: 85, median: 60, laggard: 30, vsplan: '-2pp', children: ['unapplied-cash'], signal: 's-cash-01', rootCause: 'Remittance parsing gaps', actions: [ { p: 'p1', title: 'Add remittance parser rules', impact: '27pp', effort: 'Medium' } ] },
   'unapplied-cash': { id: 'unapplied-cash', name: 'Unapplied cash', level: 'L3', area: 'cash-app', val: 9.8, unit: '%', status: 'warn', bic: 3, median: 6, laggard: 15, vsplan: '+1.2pp', children: [], signal: 's-cash-01', rootCause: 'Portal file format variance', actions: [ { p: 'p2', title: 'Lockbox format mapping', impact: '$0.7M', effort: 'Low' } ] },
+  'touchless-rate': { id: 'touchless-rate', name: 'Touchless invoice rate', level: 'L3', area: 'cash-app', val: 62, unit: '%', status: 'warn', bic: 88, median: 72, laggard: 41, vsplan: '-2pp', children: [], signal: 's-touch-01', rootCause: 'Portal acceptance workflow requires manual retakes', actions: [ { p: 'p1', title: 'Standardize remittance templates', impact: '+14pp', effort: 'Medium' } ] },
   'dispute-resolve-time': { id: 'dispute-resolve-time', name: 'Dispute resolution time', level: 'L2', area: 'disputes', val: 25, unit: 'd', status: 'warn', bic: 12, median: 18, laggard: 40, vsplan: '+3d', children: [], signal: 's-dispute-01', rootCause: 'Investigator capacity and missing evidence', actions: [ { p: 'p1', title: 'Automate claim classification', impact: '-8d', effort: 'Medium' } ] },
   'deduction-validity': { id: 'deduction-validity', name: 'Deduction validity rate', level: 'L2', area: 'deductions', val: 7, unit: '%', status: 'warn', bic: 40, median: 18, laggard: 5, vsplan: '+1pp', children: [], signal: 's-ded-01', rootCause: 'Missing promo matching', actions: [ { p: 'p2', title: 'Trade promo matcher', impact: '$0.8M', effort: 'High' } ] }
 };
 
 function renderAreaList() {
-  return Object.values(METRIC_AREAS).map(area => {
+  return `<div class="metrics-areas">${Object.values(METRIC_AREAS).map(area => {
     const metrics = area.metrics.map(id => METRICS[id]);
-    return `<div class="card" style="margin-bottom:12px;"><div class="eyebrow">${area.name}</div><div style="display:flex; gap:12px; margin-top:8px;">${metrics.map(m => `<div style="flex:1; padding:10px; border-radius:6px; background:var(--bg-2);"><div style="font-weight:600;">${m.name}</div><div class="meta" style="margin-top:6px;">${m.val}${m.unit}</div><div style="margin-top:8px;"><button class="btn-text" onclick="openMetric('${m.id}')">Drill into metric ›</button></div></div>`).join('')}</div></div>`;
-  }).join('');
+    return `<div class="area-card"><div class="area-head"><div class="area-head-main"><div class="area-name">${area.name}</div><div class="area-desc">${area.desc}</div></div><div class="area-summary">${metrics.map(m => `<div class="area-stat"><div class="stat-val">${m.val}${m.unit}</div><div class="stat-label">${m.name}</div></div>`).join('')}</div></div><div class="area-actions">${metrics.map(m => `<button class="btn btn-text" onclick="openMetric('${m.id}')">${m.name} ›</button>`).join('')}</div></div>`;
+  }).join('')}</div>`;
 }
 
 function goToMetricArea(id) {
@@ -700,9 +1327,11 @@ function renderMetricDetail(id) {
   const m = METRICS[id];
   if (!m) return `<div class="page">Metric not found</div>`;
   const area = METRIC_AREAS[m.area];
-  // small sparkline using benchmarks
   const spark = generateSpark(m);
-  return `<div class="page"><div style="margin-bottom:10px;"><a onclick="closeMetric()">← Back to metrics</a></div><div class="eyebrow">${area.name}</div><h2 style="font-family:var(--serif);">${m.name}</h2><div style="margin-top:8px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;"><div class="card card-tight"><div class="meta">Current</div><div style="font-family:var(--serif); font-size:20px; font-weight:700; margin-top:6px;">${m.val}${m.unit}</div></div><div class="card card-tight"><div class="meta">Status</div><div style="font-weight:700; margin-top:6px;">${m.status.toUpperCase()}</div></div><div class="card card-tight" style="display:flex; align-items:center; gap:12px;"><div><div class="meta">Distribution</div>${spark}</div></div></div><div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;"><div class="card" style="flex:1; min-width:280px;"><div class="meta">Benchmarks</div><div style="margin-top:8px;" class="bench-grid"><div class="card card-tight"><div class="meta">Best-in-class</div><div style="font-weight:700; margin-top:6px;">${m.bic}${m.unit || ''}</div></div><div class="card card-tight"><div class="meta">Median</div><div style="font-weight:700; margin-top:6px;">${m.median}${m.unit || ''}</div></div><div class="card card-tight"><div class="meta">Laggard</div><div style="font-weight:700; margin-top:6px;">${m.laggard}${m.unit || ''}</div></div></div></div><div class="card" style="min-width:320px;"><div class="meta">Root cause</div><div style="margin-top:8px; color:var(--ink-2);">${m.rootCause}</div><div style="margin-top:8px;"><div class="meta">Recommended actions</div>${m.actions.map(a=>`<div style="margin-top:8px;"><b>${a.title}</b> · Impact: ${a.impact} · Effort: ${a.effort}</div>`).join('')}</div></div></div><div style="margin-top:16px;">${renderContextFooter()}</div></div>`;
+  return `<div class="page"><div class="back-link" onclick="closeMetric()">← Back to metrics</div><div class="eyebrow">${area.name}</div><h2 class="h2">${m.name}</h2><div class="metric-detail-grid"><div class="value-block"><div class="meta">Current</div><div class="value">${m.val}${m.unit}</div></div><div class="value-block"><div class="meta">Status</div><div class="value">${m.status.toUpperCase()}</div></div><div class="value-block"><div class="meta">Distribution</div>${spark}</div></div><div class="section-grid section-spaced">
+      <div class="card"><div class="meta">Benchmarks</div><div class="bench-grid margin-top-sm"><div class="card card-tight"><div class="meta">Best-in-class</div><div class="value">${m.bic}${m.unit || ''}</div></div><div class="card card-tight"><div class="meta">Median</div><div class="value">${m.median}${m.unit || ''}</div></div><div class="card card-tight"><div class="meta">Laggard</div><div class="value">${m.laggard}${m.unit || ''}</div></div></div></div>
+      <div class="card"><div class="meta">Root cause</div><div class="metric-root">${m.rootCause}</div><div class="section-actions"><div class="meta">Recommended actions</div>${m.actions.map(a=>`<div class="action-line"><b>${a.title}</b> · Impact: ${a.impact} · Effort: ${a.effort}</div>`).join('')}</div></div>
+    </div><div class="context-footer">${renderContextFooter()}</div></div>`;
 }
 
 function generateSpark(m) {
@@ -714,7 +1343,7 @@ function generateSpark(m) {
     const color = i===2 ? 'var(--accent)' : i===0 ? 'var(--ok)' : i===3 ? 'var(--warn)' : 'var(--ink-3)';
     return `<rect x="${i*36}" y="${44-h}" width="24" height="${h}" rx="3" fill="${color}"></rect>`;
   }).join('');
-  return `<svg class="metric-spark" viewBox="0 0 144 48" aria-hidden="true">${bars}</svg><div class="tiny muted" style="margin-top:6px;">BIC · Median · Current · Laggard</div>`;
+  return `<svg class="metric-spark" viewBox="0 0 144 48" aria-hidden="true">${bars}</svg><div class="spark-caption">BIC · Median · Current · Laggard</div>`;
 }
 
 function renderAgent() {
@@ -727,11 +1356,13 @@ function renderAgent() {
       </div>
       <div class="meta">Pre-built agents for Collections, Cash App, Disputes, Deductions</div>
     </div>
-    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
-      <button class="btn ${mode==='catalog'?'btn-primary':''}" onclick="setAgentMode('catalog')">Catalog</button>
-      <button class="btn ${mode==='chat'?'btn-primary':''}" onclick="setAgentMode('chat')">Ask the agent</button>
+    <div class="agent-container">
+      <div class="agent-mode-tabs">
+        <div class="agent-mode-tab ${mode==='catalog'?'active':''}" onclick="setAgentMode('catalog')">Catalog<span class="count">${Object.values(EXECUTION_AGENTS).length}</span></div>
+        <div class="agent-mode-tab ${mode==='chat'?'active':''}" onclick="setAgentMode('chat')">Chat</div>
+      </div>
+      ${mode === 'catalog' ? renderAgentCatalog() : renderAgentChat()}
     </div>
-    ${mode === 'catalog' ? renderAgentCatalog() : renderAgentChat()}
   </div>`;
 }
 
@@ -742,23 +1373,24 @@ const EXECUTION_AGENTS = {
   'agt-cash-01': { id:'agt-cash-01', name:'Remittance Parser', desc:'Parses lockbox and portal remits to reduce unapplied cash', state:'armed', confidence:72, historicalFires:86, approvalClass:'Ops', icon:'layers', armedImpact:'$1.1M', armedSource:'s-cash-01', reversible:'N/A' },
   'agt-cash-02': { id:'agt-cash-02', name:'Multi-Invoice Matcher', desc:'ML matcher for complex remits and short-pay handling', state:'dormant', confidence:69, historicalFires:34, approvalClass:'Ops', icon:'link', armedImpact:'$1.4M', armedSource:null, reversible:'Yes · reversal flow' },
   'agt-dispute-01': { id:'agt-dispute-01', name:'Dispute Classifier', desc:'Classifies disputes and routes to investigators with evidence summary', state:'armed', confidence:76, historicalFires:53, approvalClass:'Legal', icon:'brain', armedImpact:'$1.2M', armedSource:'s-dispute-01', reversible:'N/A' },
-  'agt-ded-01': { id:'agt-ded-01', name:'Deduction Validity Predictor', desc:'Predicts trade vs non-trade and suggests recovery actions', state:'dormant', confidence:70, historicalFires:29, approvalClass:'Ops', icon:'zap', armedImpact:'$0.8M', armedSource:'s-ded-01', reversible:'N/A' }
+  'agt-ded-01': { id:'agt-ded-01', name:'Deduction Validity Predictor', desc:'Predicts trade vs non-trade and suggests recovery actions', state:'dormant', confidence:70, historicalFires:29, approvalClass:'Ops', icon:'zap', armedImpact:'$0.8M', armedSource:'s-ded-01', reversible:'N/A' },
+  'agt-ded-02': { id:'agt-ded-02', name:'Claim Download Agent', desc:'Automates portal claim downloads and normalises deduction reason codes', state:'dormant', confidence:68, historicalFires:24, approvalClass:'Ops', icon:'download', armedImpact:'$1.0M', armedSource:null, reversible:'N/A' }
 };
 
 function setAgentMode(m) { STATE.agentMode = m; renderPage(); }
 
 function renderAgentCatalog() {
   const list = Object.values(EXECUTION_AGENTS);
-  return `<div style="display:flex; flex-direction:column; gap:12px;">${list.map(a=>`<div class="card" style="display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700;">${a.name} <span class="tiny muted">${a.id}</span></div><div class="meta" style="margin-top:6px;">${a.desc}</div><div class="tiny muted" style="margin-top:6px;">Confidence ${a.confidence}% · Fires ${a.historicalFires.toLocaleString()}</div></div><div style="text-align:right;"><div class="meta">${a.state}</div>${a.armedSource?`<button class="btn-text" onclick="openSignal('${a.armedSource}')">View signal ›</button>`:''}</div></div>`).join('')}</div>`;
+  return `<div class="agent-cat-grid">${list.map(a=>`<div class="agent-cat-card ${a.state}"><div class="agent-cat-icon"><span>${a.icon}</span></div><div class="agent-cat-body"><div class="agent-cat-head"><div class="agent-cat-id">${a.id}</div><div class="agent-cat-name">${a.name}</div></div><div class="agent-cat-desc">${a.desc}</div><div class="agent-cat-meta">Confidence ${a.confidence}% · Fires ${a.historicalFires.toLocaleString()}</div></div><div class="agent-cat-actions"><div class="agent-cat-state ${a.state}">${a.state}</div>${a.armedSource?`<button class="btn-text" onclick="openSignal('${a.armedSource}')">View signal ›</button>`:''}</div></div>`).join('')}</div>`;
 }
 
 function renderAgentChat() {
-  return `<div style="display:flex; flex-direction:column; gap:12px;"><div class="card"><div class="meta">Context · Collections · last 90 days</div></div><div id="conversation">${renderConversation()}</div><div style="display:flex; gap:8px;"><input id="agent-q" style="flex:1; padding:10px; border:0.5px solid var(--line); border-radius:6px;" placeholder="Ask about a metric or pattern"><button class="btn btn-primary" onclick="sendAgent()">Send</button></div></div>`;
+  return `<div class="agent-chat-panel"><div class="agent-intro"><div class="agent-context"><span class="dot"></span><span>Context · Collections · last 90 days</span></div></div><div id="conversation">${renderConversation()}</div><div class="agent-chat-input"><input id="agent-q" class="value-block" placeholder="Ask about a metric or pattern"><button class="btn btn-primary" onclick="sendAgent()">Send</button></div></div>`;
 }
 
 function renderConversation() {
   STATE.conversation = STATE.conversation || [ { role:'agent', html:'<p>Ask me about DSO, unapplied cash, or a customer cohort.</p>' } ];
-  return STATE.conversation.map(m => m.role==='user' ? `<div style="text-align:right; margin-bottom:8px;"><div style="display:inline-block; background:var(--accent); color:#fff; padding:8px 12px; border-radius:12px;">${m.text}</div></div>` : `<div style="text-align:left; margin-bottom:8px;"><div style="display:inline-block; background:var(--bg-2); padding:8px 12px; border-radius:12px; color:var(--ink-2);">${m.html || m.text}</div></div>` ).join('');
+  return STATE.conversation.map(m => m.role==='user' ? `<div class="msg-user"><div class="msg-user-bubble">${m.text}</div></div>` : `<div class="msg-agent"><div class="msg-agent-body">${m.html || m.text}</div></div>` ).join('');
 }
 
 function sendAgent() {
@@ -771,14 +1403,14 @@ function sendAgent() {
 
 function renderRoadmap() {
   return `<div class="page fade-in">
-    <div class="vision-hero">
+    <div class="roadmap-hero">
       <div class="eyebrow">Roadmap · 18 months to autonomous AR</div>
       <h1 class="h1">A sequenced journey, not a big bang.</h1>
       <p class="lede">Each phase compounds on the prior. The trust foundation comes first because every diagnostic depends on numbers that reconcile to the GL.</p>
     </div>
 
-    <div style="margin-top:18px; display:flex; flex-direction:column; gap:12px;">
-      ${ROADMAP.map(p => `<div class="card"><div class="meta">${p.phase} · ${p.period}</div><h3 style="margin-top:6px;">${p.title}</h3><div style="margin-top:8px; color:var(--ink-2);">${p.desc}</div><div style="margin-top:8px;">${p.items.map(i=>`<div style="margin-top:6px;"><b>${i.label}:</b> ${i.text}</div>`).join('')}</div>`).join('')}
+    <div class="roadmap-timeline">
+      ${ROADMAP.map((p, index) => `<div class="phase${index === 0 ? ' open' : ''}"><div class="phase-meta">${p.phase} · ${p.period}</div><div class="phase-title">${p.title}</div><div class="phase-desc">${p.desc}</div><div class="phase-items">${p.items.map(i=>`<div class="phase-item"><div class="phase-item-label">${i.label}</div><div class="phase-item-text">${i.text}</div></div>`).join('')}</div><div class="phase-prize"><b>Prize:</b> ${p.prize}</div></div>`).join('')}
     </div>
   </div>`;
 }
@@ -800,30 +1432,21 @@ function renderConfigure() {
       <div class="meta">Connected systems · table freshness · field mappings</div>
     </div>
 
-    <div style="display:flex; gap:12px;">
-      <div style="flex:0 0 360px;">
+    <div class="config-panel">
+      <div>
         <div class="card">
           <div class="meta">SAP connection</div>
-          <div style="margin-top:8px; font-weight:700;">Production · ERP-PROD-1000</div>
-          <div class="tiny muted" style="margin-top:6px;">S/4HANA 2023 · RFC display-only</div>
-          <div style="margin-top:10px;"><button class="btn btn-secondary">Test connection</button></div>
+          <div class="h3 margin-top-sm">Production · ERP-PROD-1000</div>
+          <div class="tiny muted margin-top-xs">S/4HANA 2023 · RFC display-only</div>
+          <div class="section-actions"><button class="btn btn-secondary">Test connection</button></div>
         </div>
       </div>
-      <div style="flex:1;">
+      <div>
         <div class="card">
           <div class="meta">SAP tables · connected</div>
-          <div style="margin-top:8px;">
-            <table style="width:100%; border-collapse:collapse;">
-              <thead><tr><th style="text-align:left; padding:8px;">Table</th><th style="text-align:left; padding:8px;">Source</th><th style="text-align:left; padding:8px;">Last sync</th></tr></thead>
-              <tbody>
-                <tr><td style="padding:8px; font-family:var(--mono); color:var(--accent);">BSID</td><td style="padding:8px;">AR open items</td><td style="padding:8px;">12 min ago</td></tr>
-                <tr><td style="padding:8px; font-family:var(--mono); color:var(--accent);">BSEG</td><td style="padding:8px;">FI line items</td><td style="padding:8px;">12 min ago</td></tr>
-                <tr><td style="padding:8px; font-family:var(--mono); color:var(--accent);">VBRK</td><td style="padding:8px;">Billing header</td><td style="padding:8px;">12 min ago</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <div class="margin-top-sm"><table class="small-table"><thead><tr><th>Table</th><th>Source</th><th>Last sync</th></tr></thead><tbody><tr><td>BSID</td><td>AR open items</td><td>12 min ago</td></tr><tr><td>BSEG</td><td>FI line items</td><td>12 min ago</td></tr><tr><td>VBRK</td><td>Billing header</td><td>12 min ago</td></tr></tbody></table></div>
         </div>
-        <div style="margin-top:12px;">${renderContextFooter()}</div>
+        <div class="context-footer margin-top-sm">${renderContextFooter()}</div>
       </div>
     </div>
   </div>`;

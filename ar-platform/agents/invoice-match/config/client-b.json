@@ -1,0 +1,11 @@
+{
+  "_comment": "A second client's config — SAME agent package, different tuning. Tighter tolerances, no fuzzy refs, stricter short-pay. Used to demonstrate reuse via config (not a code fork).",
+  "amount_tolerance_pct": 0.005,
+  "amount_tolerance_abs": 5,
+  "date_window_days": 3,
+  "short_pay_band_pct": 0.05,
+  "max_split_invoices": 3,
+  "reference_fuzzy_max_distance": 0,
+  "layer_confidence": { "exact": 0.99, "reference": 0.90, "amount_date": 0.80, "split": 0.75, "short_pay": 0.65 },
+  "auto_post_threshold": 0.97
+}

@@ -1,0 +1,33 @@
+{
+  "name": "ar-accelerator-platform",
+  "version": "1.0.0",
+  "description": "Tiger Analytics O2C Accelerator — Account Receivables transformation platform (Cash Application + Collections, backend-driven demo)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "seed": "node server/seed.js",
+    "dev": "node --watch server/index.js",
+    "test:smoke": "node tests/smoke.mjs",
+    "test:interact": "node tests/interact.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.2.1"
+  },
+  "keywords": [
+    "o2c",
+    "accounts-receivable",
+    "cash-application",
+    "collections",
+    "tiger-analytics",
+    "accelerator"
+  ],
+  "author": "Tiger Analytics — Digital Transformation",
+  "license": "UNLICENSED"
+}

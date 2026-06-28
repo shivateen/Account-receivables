@@ -1,0 +1,19 @@
+{
+  "name": "@tiger/o2c-remittance-capture",
+  "version": "1.3.0",
+  "description": "Reusable Cash Application agent — remittance capture: parses email / EDI 820 / lockbox remittances into a canonical structure. Pluggable extraction provider (offline heuristic + Azure Document Intelligence port). Part of the Tiger O2C Accelerator.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": { "remittance-capture": "./cli.js" },
+  "scripts": {
+    "test": "node --test",
+    "eval": "node eval/run.js",
+    "serve": "node server.js",
+    "demo": "node cli.js samples/email.txt",
+    "pipeline": "node pipeline-demo.js"
+  },
+  "engines": { "node": ">=18" },
+  "keywords": ["o2c", "cash-application", "remittance", "ocr", "agent", "accelerator", "tiger-analytics"],
+  "author": "Tiger Analytics — O2C Accelerator",
+  "license": "UNLICENSED"
+}

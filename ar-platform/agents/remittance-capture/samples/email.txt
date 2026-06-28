@@ -1,0 +1,12 @@
+From: Accounts Payable <ap@mdanderson.org>
+Subject: Remittance advice — payment value date 2026-06-25
+
+Dear Accuray,
+
+Please find payment of USD 165,000.00 covering the following invoices:
+
+Invoice 90013100    120,000.00
+Invoice 90013101     45,000.00
+
+Remitter: MD Anderson Cancer Center
+Thank you.

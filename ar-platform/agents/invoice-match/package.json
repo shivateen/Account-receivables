@@ -1,0 +1,18 @@
+{
+  "name": "@tiger/o2c-invoice-match",
+  "version": "2.4.0",
+  "description": "Reusable Cash Application agent — deterministic + fuzzy invoice-matching waterfall. Part of the Tiger O2C Accelerator. Runtime-agnostic, config-driven, zero external services.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": { "invoice-match": "./cli.js" },
+  "scripts": {
+    "test": "node --test",
+    "eval": "node eval/run.js",
+    "serve": "node server.js",
+    "demo": "node cli.js samples/payment-split.json"
+  },
+  "engines": { "node": ">=18" },
+  "keywords": ["o2c", "cash-application", "invoice-matching", "agent", "accelerator", "tiger-analytics"],
+  "author": "Tiger Analytics — O2C Accelerator",
+  "license": "UNLICENSED"
+}

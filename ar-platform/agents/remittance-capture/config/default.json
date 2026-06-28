@@ -1,0 +1,5 @@
+{
+  "_comment": "Client-configurable layer. provider: text (offline) | docintel (Azure Document Intelligence).",
+  "provider": "text",
+  "review_below_confidence": 0.6
+}

@@ -1,0 +1,16 @@
+{
+  "payment": {
+    "id": "PAY-DEMO-001",
+    "amount": 165000,
+    "currency": "USD",
+    "customer_id": "CUST-1",
+    "value_date": "2026-06-25",
+    "references": [],
+    "remittance_lines": []
+  },
+  "open_invoices": [
+    { "id": "INV-A", "doc_number": "90013100", "customer_id": "CUST-1", "open_amount": 120000, "currency": "USD", "due_date": "2026-06-20" },
+    { "id": "INV-B", "doc_number": "90013101", "customer_id": "CUST-1", "open_amount": 45000, "currency": "USD", "due_date": "2026-06-22" },
+    { "id": "INV-C", "doc_number": "90013102", "customer_id": "CUST-1", "open_amount": 480000, "currency": "USD", "due_date": "2026-06-30" }
+  ]
+}

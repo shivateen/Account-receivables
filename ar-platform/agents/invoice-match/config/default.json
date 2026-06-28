@@ -1,0 +1,11 @@
+{
+  "_comment": "Client-configurable layer (the 40%). Change values here, not code.",
+  "amount_tolerance_pct": 0.02,
+  "amount_tolerance_abs": 50,
+  "date_window_days": 5,
+  "short_pay_band_pct": 0.20,
+  "max_split_invoices": 4,
+  "reference_fuzzy_max_distance": 1,
+  "layer_confidence": { "exact": 0.99, "reference": 0.92, "amount_date": 0.85, "split": 0.80, "short_pay": 0.70 },
+  "auto_post_threshold": 0.95
+}

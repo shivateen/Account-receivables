@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiger O2C · AR Accelerator</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23F08C1E'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EAR%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{--orange:#F08C1E;--dark:#141618;--bg:rgba(20,22,24,.94);--line:rgba(255,255,255,.09);--txt:#C9CAC6;--active:#F5A93E}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden;background:#000;font-family:'Poppins',system-ui,sans-serif}
+  .switcher{position:fixed;top:0;left:0;right:0;height:46px;z-index:10000;background:var(--bg);
+    backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:4px;
+    transform:translateY(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .switcher.show{transform:translateY(0)}
+  .brand{display:flex;align-items:center;gap:9px;margin-right:18px;font-size:13px;font-weight:600;color:#fff;white-space:nowrap}
+  .logo{width:25px;height:25px;border-radius:6px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:11px}
+  .brand .by{font-size:9px;color:#85878C;font-weight:500}
+  .tabs{display:flex;gap:2px;align-items:center}
+  .tab{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--txt);padding:7px 12px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap;border:none;background:none}
+  .tab:hover{background:rgba(255,255,255,.06);color:#fff}
+  .tab.active{background:rgba(240,140,30,.16);color:var(--active)}
+  .tab.soon{opacity:.45;cursor:default}
+  .tab.soon:hover{background:none;color:var(--txt)}
+  .tab .n{width:17px;height:17px;border-radius:5px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-family:'JetBrains Mono',monospace;font-weight:600}
+  .tab.active .n{background:rgba(240,140,30,.3)}
+  .tab .soontag{font-size:8.5px;font-family:'JetBrains Mono',monospace;color:#85878C;border:1px solid var(--line);padding:0 4px;border-radius:4px}
+  .spacer{flex:1}
+  .hint{font-size:10px;color:#6A6F7C;font-family:'JetBrains Mono',monospace}
+  .stage{position:absolute;inset:0;transition:top .3s}.stage.with-bar{top:46px}
+  .frame{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;pointer-events:none;transition:opacity .35s;background:#F1F1ED}
+  .frame.active{opacity:1;pointer-events:auto;z-index:5}
+  .reveal{position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:10001;width:52px;height:18px;background:var(--bg);
+    border-radius:0 0 9px 9px;border:1px solid var(--line);border-top:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+  .reveal:hover{height:22px}.reveal svg{width:15px;height:15px;stroke:var(--txt);fill:none;stroke-width:2}.reveal.hide{display:none}
+  .boot{position:fixed;inset:0;z-index:20000;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .5s}
+  .boot.gone{opacity:0;pointer-events:none}
+  .boot .logo{width:60px;height:60px;border-radius:15px;font-size:26px;animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.05);opacity:.85}}
+  .boot .t{color:#fff;font-size:15px;font-weight:600}.boot .s{color:#85878C;font-size:11.5px;font-family:'JetBrains Mono',monospace}
+</style>
+</head>
+<body>
+<div class="boot" id="boot"><div class="logo">AR</div><div class="t">Tiger O2C · AR Accelerator</div><div class="s" id="bootMsg">initialising…</div></div>
+
+<div class="switcher" id="switcher">
+  <div class="brand"><span class="logo">AR</span><div>O2C · AR Accelerator<div class="by">Powered by Tiger Analytics</div></div></div>
+  <div class="tabs">
+    <button class="tab" data-app="vision"><span class="n">1</span>Vision</button>
+    <button class="tab" data-app="command"><span class="n">2</span>AR Command Center</button>
+    <button class="tab" data-app="cashapp"><span class="n">3</span>Cash Application</button>
+    <button class="tab" data-app="collections"><span class="n">4</span>Collections</button>
+    <button class="tab" data-app="disputes"><span class="n">5</span>Disputes</button>
+    <button class="tab" data-app="deductions"><span class="n">6</span>Deductions</button>
+  </div>
+  <div class="spacer"></div>
+  <div class="hint">⌘1 … ⌘6 to switch</div>
+</div>
+<div class="reveal hide" id="reveal" title="Show app switcher"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+
+<div class="stage" id="stage">
+  <iframe class="frame" id="f-vision" src="app-vision.html"></iframe>
+  <iframe class="frame" id="f-command" src="app-command.html"></iframe>
+  <iframe class="frame" id="f-cashapp" src="app-cashapp.html"></iframe>
+  <iframe class="frame" id="f-collections" src="app-collections.html"></iframe>
+  <iframe class="frame" id="f-disputes" src="app-disputes.html"></iframe>
+  <iframe class="frame" id="f-deductions" src="app-deductions.html"></iframe>
+</div>
+
+<script>
+(function(){
+  var apps=['vision','command','cashapp','collections','disputes','deductions'],current='vision';
+  function setBar(s){document.getElementById('switcher').classList.toggle('show',s);
+    document.getElementById('stage').classList.toggle('with-bar',s);document.getElementById('reveal').classList.toggle('hide',s);}
+  function go(app){if(!apps.includes(app))return;current=app;
+    apps.forEach(a=>document.getElementById('f-'+a).classList.toggle('active',a===app));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.getAttribute('data-app')===app));
+    setBar(app!=='vision');}
+  document.querySelectorAll('.tab[data-app]').forEach(t=>t.addEventListener('click',()=>go(t.getAttribute('data-app'))));
+  document.getElementById('reveal').addEventListener('click',()=>setBar(true));
+  document.addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey){var m={'1':'vision','2':'command','3':'cashapp','4':'collections','5':'disputes','6':'deductions'};
+    if(m[e.key]){e.preventDefault();go(m[e.key]);}}});
+  window.addEventListener('message',e=>{
+    if(e.data&&e.data.__navTo){ go(e.data.__navTo);
+      if(e.data.__view){ var f=document.getElementById('f-'+e.data.__navTo); if(f&&f.contentWindow) setTimeout(function(){f.contentWindow.postMessage({__setView:e.data.__view},'*');},80); } }
+    if(e.data&&e.data.__showBar)setBar(true);
+  });
+  var msgs=['initialising…','connecting to SAP FI-AR…','loading AR data layer…','mounting command center…','wiring cash application…','loading collections engine…','ready'],i=0;
+  var bm=document.getElementById('bootMsg'),iv=setInterval(()=>{i++;if(i<msgs.length)bm.textContent=msgs[i];
+    if(i>=msgs.length-1){clearInterval(iv);setTimeout(()=>{document.getElementById('boot').classList.add('gone');go('vision');},400);}},360);
+  window.__platformGo=go;
+})();
+</script>
+</body>
+</html>

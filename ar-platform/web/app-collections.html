@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collections · AR Accelerator</title>
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+  .pscore{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;
+    background:var(--orange-tint);color:var(--orange-soft);font-weight:600;font-family:var(--mono);font-size:13px}
+  .pscore.hi{background:var(--risk-tint);color:var(--risk)}.pscore.mid{background:var(--warn-tint);color:var(--warn)}
+  .rank{font-family:var(--mono);font-weight:600;color:var(--ink-3);width:26px;text-align:center}
+  .stage-pipe{display:flex;gap:8px}
+  .stage-pipe .sp{flex:1;border:1px solid var(--line);border-radius:10px;padding:13px;background:var(--panel)}
+  .stage-pipe .sp .n{font-size:20px;font-weight:600;font-family:var(--mono)}
+  .stage-pipe .sp .l{font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px}
+  .stage-pipe .sp .v{font-size:11px;color:var(--ink-2);margin-top:3px}
+  .factor{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+  .factor .fl{width:120px;font-size:11.5px;color:var(--ink-2)}
+  .factor .ft{flex:1;height:7px;background:var(--panel-3);border-radius:5px;overflow:hidden}
+  .factor .ft i{display:block;height:100%;background:var(--orange)}
+  .factor .fv{width:34px;text-align:right;font-family:var(--mono);font-size:11px}
+  .timeline{border-left:2px solid var(--line-2);padding-left:14px;margin-left:6px;display:flex;flex-direction:column;gap:12px}
+  .tl{position:relative}.tl::before{content:'';position:absolute;left:-20px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--orange);border:2px solid var(--panel)}
+  .tl .th{font-size:12px;font-weight:600}.tl .td{font-size:11px;color:var(--ink-3)}
+  .delq{height:8px;border-radius:5px;background:var(--panel-3);overflow:hidden;width:100%}
+  .delq i{display:block;height:100%}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="trust">
+    <span class="dot"></span><span>SAP FSCM-COL <b>connected</b></span><span class="sep"></span>
+    <span>Dunning program <b>F150</b></span><span class="sep"></span>
+    <span>Worklist re-ranked <b id="reranked">daily · 06:00</b></span>
+    <span class="spacer"></span><span class="mono" id="trustMeta">—</span>
+  </div>
+  <div class="head">
+    <div class="mlogo">CO</div>
+    <div><div class="title">Collections Management</div><div class="sub">AI worklist · smart dunning · promise-to-pay · recovery</div></div>
+    <div class="spacer"></div>
+    <div class="hkpi"><div class="v" id="hCases">—</div><div class="l">Open cases</div></div>
+    <div class="hkpi"><div class="v" id="hPastDue">—</div><div class="l">Past due</div></div>
+    <div class="hkpi"><div class="v" id="hCei">—</div><div class="l">CEI</div></div>
+    <button class="btn ghost" id="themeBtn" title="Toggle theme" style="margin-left:8px"></button>
+    <button class="btn ghost" id="cmdBtn" title="Command Center"></button>
+  </div>
+  <div class="body">
+    <div class="nav" id="nav"></div>
+    <div class="main with-rail" id="content"></div>
+    <div class="rail">
+      <div class="rail-h"><span class="t">Collections Agents · Live</span><span class="live"><span class="d"></span>STREAMING</span></div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+</div>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/collections.js"></script>
+</body>
+</html>

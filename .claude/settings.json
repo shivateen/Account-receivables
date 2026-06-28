@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(timeout 70 node tests/panels.mjs)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(node --check web/assets/js/common.js)",
+      "Bash(timeout 90 node tests/pmap.mjs)",
+      "Bash(timeout 100 node tests/o2c.mjs)",
+      "Bash(timeout 80 node tests/kpi.mjs)"
+    ]
+  }
+}

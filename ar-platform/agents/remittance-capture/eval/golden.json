@@ -1,0 +1,21 @@
+[
+  { "name": "email — multi-invoice, reconciles",
+    "input": { "text": "From: AP <ap@mdanderson.org>\nSubject: Remittance value date 2026-06-25\n\nPayment of USD 165,000.00 covering:\nInvoice 90013100    120,000.00\nInvoice 90013101     45,000.00\nRemitter: MD Anderson Cancer Center\n" },
+    "expect": { "amount": 165000, "currency": "USD", "refs": ["90013100", "90013101"], "lines": 2, "reconciled": true } },
+
+  { "name": "lockbox CSV — single",
+    "input": { "text": "invoice,amount,value_date\n90014000,456000.00,2026-06-20\n" },
+    "expect": { "amount": 456000, "currency": "USD", "refs": ["90014000"], "lines": 1, "reconciled": true } },
+
+  { "name": "EDI 820 — RMR segments + TRN total",
+    "input": { "text": "ST*820*0001~\nTRN*1*165000.00~\nN1*PR*MD ANDERSON~\nRMR*IV*90016001**120000.00~\nRMR*IV*90016002**45000.00~\nSE*7*0001~" },
+    "expect": { "amount": 165000, "currency": "USD", "refs": ["90016001", "90016002"], "lines": 2, "reconciled": true } },
+
+  { "name": "email — single invoice prose",
+    "input": { "text": "Hi, payment of $480,000.00 for invoice 90012345, value date 2026-06-19. Regards, City of Hope" },
+    "expect": { "amount": 480000, "currency": "USD", "refs": ["90012345"], "lines": 1, "reconciled": true } },
+
+  { "name": "garbled — low confidence, nothing to extract",
+    "input": { "text": "Hi team, we sent over some funds earlier this week. Thanks!" },
+    "expect": { "amount": null, "currency": "USD", "refs": [], "lines": 0, "reconciled": false } }
+]

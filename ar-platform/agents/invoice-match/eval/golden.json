@@ -1,0 +1,81 @@
+[
+  { "name": "exact single (ref + amount)",
+    "input": { "payment": { "id": "P1", "amount": 480000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["90012345"] },
+      "open_invoices": [ { "id": "INV1", "doc_number": "90012345", "customer_id": "CUST-1", "open_amount": 480000, "currency": "USD", "due_date": "2026-06-18" } ] },
+    "expect": { "status": "matched", "matched": ["INV1"] } },
+
+  { "name": "exact with leading zeros on ref",
+    "input": { "payment": { "id": "P2", "amount": 360000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["0090012346"] },
+      "open_invoices": [ { "id": "INV2", "doc_number": "90012346", "customer_id": "CUST-1", "open_amount": 360000, "currency": "USD", "due_date": "2026-06-19" } ] },
+    "expect": { "status": "matched", "matched": ["INV2"] } },
+
+  { "name": "fuzzy reference (off by one digit)",
+    "input": { "payment": { "id": "P3", "amount": 120000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["90012999"] },
+      "open_invoices": [ { "id": "INV3", "doc_number": "90012998", "customer_id": "CUST-1", "open_amount": 120000, "currency": "USD", "due_date": "2026-06-18" } ] },
+    "expect": { "status": "matched", "matched": ["INV3"] } },
+
+  { "name": "amount + date, no reference",
+    "input": { "payment": { "id": "P4", "amount": 85000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": [] },
+      "open_invoices": [ { "id": "INV4", "doc_number": "90013001", "customer_id": "CUST-1", "open_amount": 85000, "currency": "USD", "due_date": "2026-06-22" } ] },
+    "expect": { "status": "matched", "matched": ["INV4"] } },
+
+  { "name": "amount within tolerance (rounding)",
+    "input": { "payment": { "id": "P5", "amount": 86000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": [] },
+      "open_invoices": [ { "id": "INV5", "doc_number": "90013002", "customer_id": "CUST-1", "open_amount": 85500, "currency": "USD", "due_date": "2026-06-21" } ] },
+    "expect": { "status": "matched", "matched": ["INV5"] } },
+
+  { "name": "amount outside tolerance → exception",
+    "input": { "payment": { "id": "P6", "amount": 95000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": [] },
+      "open_invoices": [ { "id": "INV6", "doc_number": "90013003", "customer_id": "CUST-1", "open_amount": 85000, "currency": "USD", "due_date": "2026-06-21" } ] },
+    "expect": { "status": "exception", "matched": [] } },
+
+  { "name": "split — two invoices",
+    "input": { "payment": { "id": "P7", "amount": 165000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": [] },
+      "open_invoices": [ { "id": "INV7", "doc_number": "90013100", "customer_id": "CUST-1", "open_amount": 120000, "currency": "USD" }, { "id": "INV8", "doc_number": "90013101", "customer_id": "CUST-1", "open_amount": 45000, "currency": "USD" } ] },
+    "expect": { "status": "matched", "matched": ["INV7", "INV8"] } },
+
+  { "name": "split — three invoices",
+    "input": { "payment": { "id": "P8", "amount": 250000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": [] },
+      "open_invoices": [ { "id": "INV9", "doc_number": "90013200", "customer_id": "CUST-1", "open_amount": 120000, "currency": "USD" }, { "id": "INV10", "doc_number": "90013201", "customer_id": "CUST-1", "open_amount": 85000, "currency": "USD" }, { "id": "INV11", "doc_number": "90013202", "customer_id": "CUST-1", "open_amount": 45000, "currency": "USD" } ] },
+    "expect": { "status": "matched", "matched": ["INV9", "INV10", "INV11"] } },
+
+  { "name": "short-pay (deduction within band)",
+    "input": { "payment": { "id": "P9", "amount": 456000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["90014000"] },
+      "open_invoices": [ { "id": "INV12", "doc_number": "90014000", "customer_id": "CUST-1", "open_amount": 480000, "currency": "USD", "due_date": "2026-06-18" } ] },
+    "expect": { "status": "partial", "matched": ["INV12"] } },
+
+  { "name": "unidentified → exception",
+    "input": { "payment": { "id": "P10", "amount": 99999, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["NOPE123"] },
+      "open_invoices": [ { "id": "INV13", "doc_number": "90015000", "customer_id": "CUST-1", "open_amount": 200000, "currency": "USD" } ] },
+    "expect": { "status": "exception", "matched": [] } },
+
+  { "name": "multi-reference exact",
+    "input": { "payment": { "id": "P11", "amount": 165000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["90016001", "90016002"] },
+      "open_invoices": [ { "id": "INV14", "doc_number": "90016001", "customer_id": "CUST-1", "open_amount": 120000, "currency": "USD" }, { "id": "INV15", "doc_number": "90016002", "customer_id": "CUST-1", "open_amount": 45000, "currency": "USD" } ] },
+    "expect": { "status": "matched", "matched": ["INV14", "INV15"] } },
+
+  { "name": "wrong customer → exception",
+    "input": { "payment": { "id": "P12", "amount": 480000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["90017000"] },
+      "open_invoices": [ { "id": "INV16", "doc_number": "90017000", "customer_id": "CUST-2", "open_amount": 480000, "currency": "USD" } ] },
+    "expect": { "status": "exception", "matched": [] } },
+
+  { "name": "currency mismatch → exception",
+    "input": { "payment": { "id": "P13", "amount": 480000, "currency": "EUR", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["90018000"] },
+      "open_invoices": [ { "id": "INV17", "doc_number": "90018000", "customer_id": "CUST-1", "open_amount": 480000, "currency": "USD" } ] },
+    "expect": { "status": "exception", "matched": [] } },
+
+  { "name": "short-pay beyond band → exception",
+    "input": { "payment": { "id": "P14", "amount": 360000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["90019000"] },
+      "open_invoices": [ { "id": "INV18", "doc_number": "90019000", "customer_id": "CUST-1", "open_amount": 480000, "currency": "USD" } ] },
+    "expect": { "status": "exception", "matched": [] } },
+
+  { "name": "reference exact, date far out (ref dominates)",
+    "input": { "payment": { "id": "P15", "amount": 480000, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-01-01", "references": ["90020000"] },
+      "open_invoices": [ { "id": "INV19", "doc_number": "90020000", "customer_id": "CUST-1", "open_amount": 480000, "currency": "USD", "due_date": "2026-06-01" } ] },
+    "expect": { "status": "matched", "matched": ["INV19"] } },
+
+  { "name": "small overpayment within tolerance",
+    "input": { "payment": { "id": "P16", "amount": 480500, "currency": "USD", "customer_id": "CUST-1", "value_date": "2026-06-20", "references": ["90021000"] },
+      "open_invoices": [ { "id": "INV20", "doc_number": "90021000", "customer_id": "CUST-1", "open_amount": 480000, "currency": "USD", "due_date": "2026-06-19" } ] },
+    "expect": { "status": "matched", "matched": ["INV20"] } }
+]
