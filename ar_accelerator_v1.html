@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AR Accelerator v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ========================================================================
+   DESIGN SYSTEM
+   Warm off-white background · hairline borders · serif headlines
+   Single accent (teal-blue) · scoped semantic colors · tabular numerics
+   No shadows · no gradients · no emoji
+======================================================================== */
+
+:root {
+  --bg: #FAFAF7;
+  --bg-2: #F2F1EC;
+  --bg-3: #E8E6DF;
+  --surface: #FFFFFF;
+  --surface-2: #F6F5F0;
+
+  --ink: #1A1D24;
+  --ink-2: #4A4F5C;
+  --ink-3: #7D8290;
+  --ink-4: #A8ACB5;
+
+  --line: #DCDDD8;
+  --line-2: #C2C4BE;
+  --line-strong: #A8ACB5;
+
+  --accent: #1E5F8E;
+  --accent-2: #16486E;
+  --accent-tint: #E8F0F7;
+
+  --agent: #6D4B9C;
+  --agent-tint: #EEEAF4;
+
+  --ok: #1A6E51;
+  --ok-tint: #E6F0EC;
+  --warn: #8B5A1F;
+  --warn-tint: #F3EBDD;
+  --alert: #A04030;
+  --alert-tint: #F2E3DF;
+
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius: 6px;
+  --radius-sm: 4px;
+  --radius-lg: 10px;
+}
+
+.dark {
+  --bg: #0E1218;
+  --bg-2: #161B23;
+  --bg-3: #1E242E;
+  --surface: #161B23;
+  --surface-2: #1A2029;
+  --ink: #E8E6DC;
+  --ink-2: #BBC0CA;
+  --ink-3: #8A91A0;
+  --ink-4: #5C6478;
+  --line: #232932;
+  --line-2: #2E3540;
+  --line-strong: #4A5260;
+  --accent: #4A9BD0;
+  --accent-2: #6CB0DE;
+  --accent-tint: rgba(74,155,208,0.10);
+  --agent: #A088D0;
+  --agent-tint: rgba(160,136,208,0.10);
+  --ok: #4FB892;
+  --ok-tint: rgba(79,184,146,0.10);
+  --warn: #D9A155;
+  --warn-tint: rgba(217,161,85,0.10);
+  --alert: #D9806B;
+  --alert-tint: rgba(217,128,107,0.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+}
+
+.num, .stat, .kpi-val, .signal-amt, .pill, .meta-num, table td, table th {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+button { background: none; border: none; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+.app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+.trust-strip {
+  height: 36px;
+  background: var(--surface);
+  border-bottom: 0.5px solid var(--line);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.trust-strip.amber { background: var(--warn-tint); border-bottom-color: var(--warn); }
+.ts-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--ok); flex-shrink: 0;
+}
+.trust-strip.amber .ts-dot { background: var(--warn); }
+.ts-sep { color: var(--ink-4); }
+.ts-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.ts-link { color: var(--ink-2); cursor: pointer; }
+.ts-link:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+.theme-tog {
+  display: flex; align-items: center; gap: 4px;
+  border: 0.5px solid var(--line);
+  border-radius: 14px;
+  padding: 3px 4px;
+  font-size: 10px;
+}
+.theme-tog button { padding: 2px 7px; border-radius: 10px; color: var(--ink-3); font-size: 10px; }
+.theme-tog button.on { background: var(--ink); color: var(--bg); }
+
+.topbar {
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 0.5px solid var(--line);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 24px;
+  flex-shrink: 0;
+}
+.brand {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  font-style: italic;
+}
+.brand-sub {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--ink-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-left: 10px;
+  margin-left: 10px;
+  border-left: 0.5px solid var(--line);
+}
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.context-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 11px;
+  font-size: 11px;
+  color: var(--ink-2);
+  background: var(--bg-2);
+  border: 0.5px solid var(--line);
+  border-radius: 14px;
+}
+.context-pill .lbl { color: var(--ink-3); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.body { display: flex; flex: 1; overflow: hidden; }
+
+.rail {
+  width: 200px;
+  background: var(--surface);
+  border-right: 0.5px solid var(--line);
+  padding: 16px 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.rail-section { padding: 8px 16px 4px; }
+.rail-section-label {
+  font-size: 9px;
+  font-family: var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 6px;
+  padding-left: 4px;
+}
+.rail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--ink-2);
+  font-size: 13px;
+  margin-bottom: 1px;
+  position: relative;
+  transition: background 0.12s, color 0.12s;
+}
+.rail-item:hover { background: var(--bg-2); color: var(--ink); }
+.rail-item.active { color: var(--ink); font-weight: 500; }
+.rail-item.active::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 6px; bottom: 6px;
+  width: 2px;
+  background: var(--ink);
+}
+.rail-icon {
+  width: 16px; height: 16px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--ink-3);
+}
+.rail-item.active .rail-icon { color: var(--ink); }
+.rail-item svg { width: 16px; height: 16px; stroke-width: 1.5; }
+.rail-divider { height: 0.5px; background: var(--line); margin: 12px 16px; }
+
+.main { flex: 1; overflow-y: auto; background: var(--bg); }
+.main::-webkit-scrollbar { width: 8px; }
+.main::-webkit-scrollbar-track { background: transparent; }
+.main::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
+.main::-webkit-scrollbar-thumb:hover { background: var(--line-strong); }
+
+.page { padding: 32px 40px 64px; max-width: 1280px; }
+.page .section-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-end; margin-bottom: 20px; }
+.page .eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-4); }
+.page .h1 { font-family: var(--serif); font-size: 42px; line-height: 1.05; max-width: 12ch; margin-top: 10px; margin-bottom: 18px; color: var(--ink); }
+.page .lede { max-width: 68ch; color: var(--ink-2); font-size: 15px; line-height: 1.75; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 11px 18px; font-size: 13px; font-weight: 600; border: 0.5px solid transparent; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-2); }
+.btn-secondary { background: var(--bg-2); color: var(--ink); border-color: var(--line); }
+.btn-secondary:hover { background: var(--surface); }
+.btn-text { color: var(--ink-2); display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.btn-text:hover { color: var(--ink); }
+
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.spacer { flex: 1; }
+
+.card { background: var(--surface); border: 0.5px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.card-tight { background: var(--surface); border: 0.5px solid var(--line); border-radius: var(--radius); padding: 18px; }
+.card-loose { background: var(--surface); border: 0.5px solid var(--line); border-radius: var(--radius); padding: 26px; }
+
+.bench-grid { display:flex; gap:8px; }
+.metric-spark { width:160px; height:48px; display:block; }
+.stat-row { display:flex; gap:12px; align-items:center; }
+
+.meta { color: var(--ink-3); font-size: 12px; }
+
+@media (max-width: 1100px) {
+  .page { padding: 24px 28px 48px; }
+}
+@media (max-width: 700px) {
+  .rail { width: 56px; }
+  .rail-item .rail-label { display: none; }
+  .page { padding: 18px 12px 36px; }
+}
+/* small animations */
+.fade-in { animation: fadeIn 240ms ease both; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+const STATE = {
+  page: 'vision',
+  theme: 'light',
+  trustOk: true
+};
+
+const ICONS = {
+  vision: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12 22 12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  diagnose: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>',
+  metrics: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>',
+  agent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  roadmap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3"/><path d="M9 12h3"/><path d="M15 12h3"/><path d="M21 12h0"/><circle cx="6" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg>',
+  configure: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
+  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>'
+};
+
+// VISION data for AR Accelerator
+const VISION = {
+  pillars: [
+    { id: 'sense', eyebrow: 'PILLAR I', name: 'Continuous sensing', desc: 'Every order, invoice and payment generates signals in near real-time.', currentStage: 1, targetStage: 4, stages: ['Manual reporting','Daily extracts','Hourly refresh','Real-time signals','Predictive sensing'], currentLabel: 'Daily', targetLabel: 'Real-time', gap: { label: 'Signal latency', current: '24 hrs', future: '< 5 min' } },
+    { id: 'diagnose', eyebrow: 'PILLAR II', name: 'Self-explaining diagnostics', desc: 'Root cause is computed, not investigated; evidence chains tie to SAP records.', currentStage: 1, targetStage: 4, stages: ['Static dashboards','Drill-down OLAP','Triggered analysis','Self-explaining','Predictive RCA'], currentLabel: 'Drill-down', targetLabel: 'Self-explaining', gap: { label: 'Time to RCA', current: '3-5 days', future: '< 5 min' } },
+    { id: 'decide', eyebrow: 'PILLAR III', name: 'Agentic recommendations', desc: 'Pre-sized, policy-checked recommendations queued for human approval.', currentStage: 0, targetStage: 3, stages: ['Reactive','Reports','Suggested actions','Pre-sized actions','Autonomous'], currentLabel: 'Reactive', targetLabel: 'Pre-sized actions', gap: { label: 'Decision latency', current: '5-10 days', future: '< 1 hr' } },
+    { id: 'act', eyebrow: 'PILLAR IV', name: 'Closed-loop execution', desc: 'Approved actions write back to SAP with audit and outcome attribution.', currentStage: 0, targetStage: 3, stages: ['Manual SAP entry','BAPI batch','Approved write-back','Outcome-attributed','Closed-loop learning'], currentLabel: 'Manual SAP', targetLabel: 'Outcome-attributed', gap: { label: 'Action close rate', current: '38%', future: '> 92%' } }
+  ],
+  prize: { stat: '$28M', label: 'Working capital release by month 18', narrative: 'Recover 8–14 days of DSO and redirect analyst hours to customer engagement. The diagnostic accelerator measures the gap, prioritises the journey, and proves recovery against the GL.' }
+};
+
+const ORG_DESIGN = {
+  today: {
+    label: 'Today — incident-driven finance', headcount: '72', headcountLabel: 'FTE', monthEndDays: 8, closeLabel: 'Month-end', signalLatency: '24h', latencyLabel: 'Daily', decisionLatency: '7 days', decisionLabel: 'Weekly', roles: [ { name: 'Collections analyst', count: 28, tag: 'Frontline' }, { name: 'Cash app specialist', count: 12, tag: 'Operational' }, { name: 'Dispute SME', count: 10, tag: 'Operational' }, { name: 'Controller', count: 6, tag: 'Oversight' } ], decisions: [ { text: 'Approve write-backs', new: false }, { text: 'Manual block overrides', new: false } ], cadence: { close: 'Monthly', report: 'Weekly', attest: 'Quarterly' }
+  },
+  future: {
+    label: 'Month 18 — real-time finance', headcount: '68', headcountLabel: 'FTE (rebalanced)', monthEndDays: 2, closeLabel: 'Continuous', signalLatency: '<5m', latencyLabel: 'Real-time', decisionLatency: '1 hr', decisionLabel: 'Near real-time', roles: [ { name: 'AR strategist', count: 8, tag: 'Value' }, { name: 'Agent ops', count: 6, tag: 'Governance' }, { name: 'Analytics engineer', count: 12, tag: 'Platform' }, { name: 'Controller', count: 6, tag: 'Oversight' } ], decisions: [ { text: 'Authorize autonomous actions', new: true }, { text: 'Set policy thresholds', new: true } ], cadence: { close: 'Continuous', report: 'Daily', attest: 'Continuous' }
+  },
+  narrative: 'The operating model shifts from manual transaction handling to outcome ownership: humans approve and strategic teams measure outcome attribution.'
+};
+
+function renderPillarCard(p) {
+  const stageCount = p.stages.length - 1;
+  const currentPct = (p.currentStage / stageCount) * 100;
+  const targetPct = (p.targetStage / stageCount) * 100;
+  return `<div class="card card-tight" style="min-width: 260px; margin-right:12px;">
+    <div class="eyebrow">${p.eyebrow}</div>
+    <div style="font-family:var(--serif); font-size:18px; margin-top:6px; font-weight:500;">${p.name}</div>
+    <div class="meta" style="margin-top:8px;">${p.desc}</div>
+    <div style="margin-top:12px;">
+      <div style="background:var(--bg-2); height:8px; border-radius:6px; position:relative; overflow:hidden;">
+        <div style="background:var(--accent); width:${currentPct}%; height:100%;"></div>
+        <div style="position:absolute; left:${targetPct}%; top:-6px; transform:translateX(-50%); font-size:10px; color:var(--ink-3);">M18</div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:12px; color:var(--ink-3);">
+      <div>${p.gap.label} · ${p.gap.current}</div>
+      <div style="color:var(--accent);">${p.gap.future}</div>
+    </div>
+  </div>`;
+}
+
+function renderOrgCard(org, kind) {
+  return `<div class="card card-tight" style="flex:1; margin-right:12px;">
+    <div class="eyebrow">${kind === 'today' ? 'Today' : 'Month 18'}</div>
+    <div style="font-family:var(--serif); font-size:18px; margin-top:6px; font-weight:500;">${org.label}</div>
+    <div style="display:flex; gap:18px; margin-top:12px;">
+      <div>
+        <div class="meta">O2C headcount</div>
+        <div style="font-family:var(--serif); font-size:20px; font-weight:600; margin-top:6px;">${org.headcount}</div>
+        <div class="tiny muted">${org.headcountLabel}</div>
+      </div>
+      <div>
+        <div class="meta">Close cadence</div>
+        <div style="font-family:var(--serif); font-size:20px; font-weight:600; margin-top:6px;">${org.monthEndDays}d</div>
+        <div class="tiny muted">${org.closeLabel}</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <div class="meta">Roles & headcount mix</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+        ${org.roles.map(r => `<div style="padding:6px 8px; border-radius:6px; background:var(--bg-2); font-size:13px;">${r.name} · ${r.count}</div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderShell() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="trust-strip ${STATE.trustOk ? '' : 'amber'}">
+      <span class="ts-dot"></span>
+      <span class="ts-link" onclick="navTo('configure')">AR trust foundation · GL variance <span class="num">0.04%</span> · last reconciled 18 min ago</span>
+      <span class="ts-sep">·</span>
+      <span class="muted">5 signals active · 12 diagnostic rules engaged</span>
+      <div class="ts-right">
+        <span class="ts-link" onclick="openModal('reconciliation')">Reconciliation history ›</span>
+        <div class="theme-tog">
+          <button class="${STATE.theme==='light'?'on':''}" onclick="setTheme('light')">Light</button>
+          <button class="${STATE.theme==='dark'?'on':''}" onclick="setTheme('dark')">Dark</button>
+        </div>
+      </div>
+    </div>
+    <div class="topbar">
+      <span class="brand">AR Accelerator</span>
+      <span class="brand-sub">Accounts Receivable transformation</span>
+      <div class="topbar-right">
+        <div class="context-pill"><span class="lbl">Customer</span> Continental Heavy</div>
+        <div class="context-pill"><span class="lbl">Period</span> Q3 2026</div>
+        <div class="context-pill"><span class="lbl">Scope</span> Collections · Cash App · Disputes · Deductions</div>
+      </div>
+    </div>
+    <div class="body">
+      <nav class="rail">
+        <div class="rail-section">
+          <div class="rail-section-label">Vision</div>
+          ${renderNavItem('vision', 'Future state')}
+        </div>
+        <div class="rail-divider"></div>
+        <div class="rail-section">
+          <div class="rail-section-label">Today</div>
+          ${renderNavItem('diagnose', 'Diagnose')}
+          ${renderNavItem('metrics', 'Metrics')}
+          ${renderNavItem('agent', 'Agent')}
+        </div>
+        <div class="rail-divider"></div>
+        <div class="rail-section">
+          <div class="rail-section-label">Journey</div>
+          ${renderNavItem('roadmap', 'Roadmap')}
+        </div>
+        <div class="rail-divider"></div>
+        <div class="rail-section" style="margin-top: auto; padding-top: 16px;">
+          <div class="rail-section-label">Setup</div>
+          ${renderNavItem('configure', 'Trust foundation')}
+        </div>
+      </nav>
+      <main class="main" id="main-content"></main>
+    </div>
+  `;
+  renderPage();
+}
+
+function renderNavItem(id, label) {
+  return `<div class="rail-item ${STATE.page === id ? 'active' : ''}" onclick="navTo('${id}')">
+    <span class="rail-icon">${ICONS[id] || ''}</span>
+    <span class="rail-label">${label}</span>
+  </div>`;
+}
+
+function navTo(page) {
+  STATE.page = page;
+  renderShell();
+}
+
+function renderPage() {
+  const main = document.getElementById('main-content');
+  if (!main) return;
+  if (STATE.selectedSignal) {
+    main.innerHTML = renderDescent(STATE.selectedSignal);
+    return;
+  }
+  if (STATE.selectedMetric) {
+    main.innerHTML = renderMetricDetail(STATE.selectedMetric);
+    return;
+  }
+  if (STATE.page === 'vision') main.innerHTML = renderVision();
+  else if (STATE.page === 'diagnose') main.innerHTML = renderDiagnose();
+  else if (STATE.page === 'metrics') main.innerHTML = renderMetrics();
+  else if (STATE.page === 'agent') main.innerHTML = renderAgent();
+  else if (STATE.page === 'roadmap') main.innerHTML = renderRoadmap();
+  else if (STATE.page === 'configure') main.innerHTML = renderConfigure();
+}
+
+function renderVision() {
+  return `<div class="page fade-in">
+    <div class="vision-hero">
+      <div class="eyebrow">Vision · AR transformation future state</div>
+      <h1 class="h1">Finance moves from reactive collections to continuous AR operating model.</h1>
+      <p class="lede">The AR Accelerator aligns Collections Management, Cash Application, Disputes, and Deductions behind a trust foundation, continuous sensing, and agentic execution — releasing working capital and creating operational capacity.</p>
+    </div>
+
+    <div class="section-head">
+      <span class="eyebrow">Four pillars · where you are and where you're going</span>
+      <span class="meta">Maturity assessment based on current baseline</span>
+    </div>
+
+    <div style="display:flex; gap:12px; margin-bottom: 18px; overflow:auto; padding-bottom:6px;">
+      ${VISION.pillars.map(p => renderPillarCard(p)).join('')}
+    </div>
+
+    <div style="display:flex; gap:12px; align-items:center; margin-top: 8px;">
+      <div style="flex:0 0 220px;">
+        <div style="font-family:var(--serif); font-size:28px; font-weight:700;">${VISION.prize.stat}</div>
+        <div class="tiny muted">${VISION.prize.label}</div>
+      </div>
+      <div class="card" style="flex:1;">
+        <div class="meta">Outcome narrative</div>
+        <div style="margin-top:8px; color:var(--ink-2);">${VISION.prize.narrative}</div>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top: 28px;">
+      <span class="eyebrow">North-star organisation design</span>
+      <span class="meta">Operational destination by month 18</span>
+    </div>
+
+    <div style="display:flex; gap:12px; margin-top:12px;">
+      ${renderOrgCard(ORG_DESIGN.today, 'today')}
+      ${renderOrgCard(ORG_DESIGN.future, 'future')}
+    </div>
+
+    <div style="margin-top:18px;" class="card card-loose">
+      <div class="eyebrow">The shift</div>
+      <h3 class="h3" style="margin-top:6px;">${ORG_DESIGN.narrative}</h3>
+    </div>
+
+    <div style="margin-top:18px; display:flex; gap:12px;">
+      <button class="btn btn-primary" onclick="navTo('roadmap')">See the roadmap <span class="icon">${ICONS.arrow}</span></button>
+      <button class="btn btn-secondary" onclick="navTo('diagnose')">See current diagnostics</button>
+    </div>
+  </div>`;
+}
+
+function renderDiagnose() {
+  const signalList = Object.values(SIGNALS);
+  return `<div class="page fade-in">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Diagnose · current state</div>
+        <h1 class="h1">Findings worth your attention this week.</h1>
+      </div>
+    </div>
+
+    <p class="lede">Click Investigate on any signal to view the evidence ladder and recommended actions.</p>
+
+    <div class="stack" style="display:flex; flex-direction:column; gap:14px; margin-top:18px;">
+      ${signalList.map(s => renderSignalCard(s)).join('')}
+    </div>
+
+    <div style="margin-top:28px;">${renderKpiSummary()}</div>
+  </div>`;
+}
+
+// Signals data (expanded)
+const SIGNALS = {
+  's-coll-01': {
+    id: 's-coll-01', severity: 'alert', pattern: 'COLLECTIONS · CONCENTRATION', confidence: 82,
+    headline: 'Aging concentration: top 10 customers hold 42% of past-due balance',
+    body: '<p>Top-10 concentration has increased from 31% to 42% driven by three strategic accounts with terms drift.</p>',
+    stats: [ { label: 'WC IMPACT', val: '$4.2M' }, { label: 'PAST DUE', val: '120d' }, { label: 'TOP10%', val: '42%' } ],
+    lens: 'collections', primaryMetric: 'dso', armedAgent: 'agt-coll-01', levers: [ { name: 'Concentration', pct: 3, days: '120d', tag: 'Customer mix', text: 'Customer cohort driven' } ],
+    ladder: [ { fact: 'Top 10 customers delta +11pp', why: 'Large industrial customer delayed payment', source: 'gold__customer_balances' } ],
+    recommend: { title: 'Prioritise top-10 outreach and payment plan offers', stats: [ { label: 'Estimated recovery', val: '$2.9M', sub: '21 days' } ] }
+  },
+  's-cash-01': {
+    id: 's-cash-01', severity: 'warn', pattern: 'CASH APP · UNAPPLIED CASH', confidence: 71,
+    headline: 'Unapplied cash at 9.8% of receipts — parsing gap in remittance capture',
+    body: '<p>Lockbox and portal remittance capture miss structured remits from two AR portals.</p>',
+    stats: [ { label: 'UNAPPLIED', val: '$1.1M' }, { label: 'AUTO-MATCH', val: '38%' } ],
+    lens: 'cash-application', primaryMetric: 'auto-match', armedAgent: 'agt-cash-01', levers: [],
+    ladder: [ { fact: 'High unmatched remits', why: 'Format variance in remittance files', source: 'bronze.lockbox_files' } ],
+    recommend: { title: 'Add remittance parser rules and train ML match model', stats: [ { label: 'Estimated touchless gain', val: '27pp', sub: '90 days' } ] }
+  },
+  's-ded-01': {
+    id: 's-ded-01', severity: 'warn', pattern: 'DEDUCTIONS · VALIDITY GAP', confidence: 66,
+    headline: 'High deduction leakage: 18% invalid deductions unresolved',
+    body: '<p>Automated classification misses trade vs non-trade in portal uploads, increasing manual review load.</p>',
+    stats: [ { label: 'DEDUCTIONS', val: '18%' }, { label: 'AUTO-VALID', val: '7%' } ],
+    lens: 'deductions', primaryMetric: 'deduction-validity', armedAgent: 'agt-ded-01', levers: [],
+    ladder: [ { fact: 'Portal claim batch shows 42% new formats', why: 'Integrator change', source: 'bronze.portal_claims' } ],
+    recommend: { title: 'Implement validity predictor and trade promo matcher', stats: [ { label: 'Estimated recovery', val: '$0.8M', sub: '120 days' } ] }
+  },
+  's-bb-12': {
+    id: 's-bb-12', severity: 'alert', pattern: 'PATTERN B-12 · BLOCK GOVERNANCE', confidence: 78,
+    headline: 'Manual billing-block discipline has degraded — $6.1M trapped in active blocks',
+    body: '<p>Active billing-block rate has moved to <b>34.2%</b>. Manual blocks account for 49.9% of active blocks.</p>',
+    stats: [ { label: 'WC TRAPPED', val: '$6.1M' }, { label: 'BLOCKS ACTIVE', val: '847' }, { label: 'AVG HOLD', val: '6.2d' } ],
+    lens: 'collections', primaryMetric: 'block-hold-time', armedAgent: 'agt-bb-01', levers: [],
+    ladder: [ { fact: 'Policy change event logged', why: 'Change-document CDHDR 0099174826', source: 'bronze.cdhdr' } ],
+    recommend: { title: 'Review manual block policy and auto-release rules', stats: [ { label: 'Estimated recoverable', val: '$3.8M', sub: '21 days' } ] }
+  },
+  's-dispute-01': {
+    id: 's-dispute-01', severity: 'warn', pattern: 'DISPUTES · BACKLOG SPIKE', confidence: 70,
+    headline: 'Dispute backlog increased 28% — investigation capacity constrained',
+    body: '<p>Influx of portal claims and incomplete evidence increased investigator cycle time.</p>',
+    stats: [ { label: 'BACKLOG', val: '1,240' }, { label: 'AVG AGE', val: '32d' } ],
+    lens: 'dispute', primaryMetric: 'dispute-resolve-time', armedAgent: 'agt-dispute-01', levers: [],
+    ladder: [ { fact: 'Portal claims spike', why: 'High vendor deductions after promotion', source: 'bronze.portal_claims' } ],
+    recommend: { title: 'Triage and automate claim classification to reduce investigator load', stats: [ { label: 'Estimated throughput', val: '−12d', sub: 'per case' } ] }
+  }
+};
+
+function renderSignalCard(s) {
+  return `<div class="card" style="border-left:4px solid ${s.severity==='alert'? 'var(--alert)' : s.severity==='warn' ? 'var(--warn)' : 'var(--accent)'};">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div class="eyebrow">${s.pattern}</div>
+        <div style="font-family:var(--serif); font-size:16px; font-weight:600; margin-top:6px;">${s.headline}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="meta">${s.confidence}% confidence</div>
+        <div style="margin-top:8px;">${s.stats.map(st=>`<div style="font-weight:600">${st.val}</div><div class="tiny muted">${st.label}</div>`).join('')}</div>
+      </div>
+    </div>
+    <div style="margin-top:10px; color:var(--ink-2);">${s.body}</div>
+    <div style="margin-top:12px; display:flex; gap:8px; align-items:center;"><button class="btn btn-primary" onclick="openSignal('${s.id}')">Investigate <span style="margin-left:6px;">›</span></button><button class="btn btn-secondary" onclick="navTo('metrics')">See metrics</button></div>
+  </div>`;
+}
+
+function renderKpiSummary() {
+  const kpis = [ { name: 'DSO', val: '47.3d', delta: '+1.4d', state: 'alert' }, { name: 'Auto-match', val: '38%', delta: '-3pp', state: 'warn' }, { name: 'Deduction validity', val: '7%', delta: '+1pp', state: 'warn' } ];
+  return `<div style="display:grid; grid-template-columns: repeat(3,1fr); gap:12px;">${kpis.map(k=>`<div class="card card-tight"><div class="eyebrow">${k.name}</div><div style="font-family:var(--serif); font-size:20px; font-weight:600; margin-top:6px;">${k.val}</div><div class="tiny muted" style="margin-top:6px;">${k.delta}</div></div>`).join('')}</div>`;
+}
+
+function openSignal(id) {
+  STATE.selectedSignal = id;
+  renderPage();
+  document.querySelector('.main').scrollTop = 0;
+}
+function closeSignal() {
+  STATE.selectedSignal = null;
+  renderPage();
+}
+
+function renderDescent(id) {
+  const s = SIGNALS[id];
+  if (!s) return '<div class="page">Signal not found</div>';
+  const sevColor = s.severity === 'alert' ? 'var(--alert)' : s.severity === 'warn' ? 'var(--warn)' : 'var(--accent)';
+  return `<div class="page">
+    <div style="margin-bottom:10px;"><a onclick="closeSignal()">← Back to diagnose</a></div>
+    <div class="eyebrow" style="color:${sevColor};">${s.pattern} · ${s.confidence}% confidence</div>
+    <h2 style="font-family:var(--serif); margin-top:8px;">${s.headline}</h2>
+    <div style="margin-top:12px; color:var(--ink-2);">${s.body}</div>
+
+    <div style="margin-top:18px;">
+      <div class="eyebrow">Evidence ladder</div>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        ${s.ladder.map((step,i)=>`<div style="padding:10px; border:0.5px solid var(--line); border-radius:6px;"><div style="font-weight:600;">STEP ${i+1}</div><div class="tiny muted">${step.source}</div><div style="margin-top:6px; color:var(--ink-2);">${step.fact}</div></div>`).join('')}
+      </div>
+    </div>
+
+    <div style="margin-top:18px;">
+      <div class="eyebrow">Recommended action</div>
+      <div style="margin-top:8px; font-weight:600;">${s.recommend.title}</div>
+      <div style="margin-top:8px; display:flex; gap:12px;">${s.recommend.stats.map(st=>`<div class="card card-tight"><div class="meta">${st.label}</div><div style="font-family:var(--serif); font-size:18px; font-weight:700; margin-top:6px;">${st.val}</div><div class="tiny muted">${st.sub || ''}</div></div>`).join('')}</div>
+      <div style="margin-top:12px; display:flex; gap:8px;"><button class="btn btn-primary" onclick="alert('Approve: routing to Controller')">Approve and route</button><button class="btn btn-secondary" onclick="alert('Decline: open reason capture')">Decline</button></div>
+    </div>
+
+    <div style="margin-top:20px;">${renderContextFooter()}</div>
+  </div>`;
+}
+
+function renderContextFooter() {
+  return `<div style="margin-top:12px; padding-top:12px; border-top:0.5px solid var(--line); color:var(--ink-3); display:flex; gap:10px; align-items:center;"><div style="width:20px; height:20px; background:var(--agent); border-radius:4px;"></div><div>Interpreted via AR Context Layer · <span class="tiny muted">policy rules · mappings · patterns</span></div></div>`;
+}
+
+function renderMetrics() {
+  const l2Metrics = Object.values(METRICS).filter(m => m.level === 'L2');
+  const areas = Object.values(METRIC_AREAS);
+  return `<div class="page fade-in">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Metrics · AR KPI taxonomy</div>
+        <h1 class="h1">Every metric, every contributing factor.</h1>
+      </div>
+      <div class="meta">${l2Metrics.length} L2 metrics · ${areas.length} areas</div>
+    </div>
+
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      ${areas.map(a => `<div class="card card-tight" style="min-width:200px; flex:1; cursor:pointer;" onclick="goToMetricArea('${a.id}')"><div class="eyebrow">${a.name}</div><div style="margin-top:8px; color:var(--ink-2);">${a.desc}</div></div>`).join('')}
+    </div>
+
+    <div style="margin-top:18px;">${renderAreaList()}</div>
+  </div>`;
+}
+
+// Metric data
+const METRIC_AREAS = {
+  'block-mgmt': { id: 'block-mgmt', name: 'Collections & Block Management', desc: 'Billing blocks, manual overrides, aging concentration', metrics: ['dso','block-hold-time'] },
+  'cash-app': { id: 'cash-app', name: 'Cash Application', desc: 'Auto-match, unapplied cash, remittance parsing', metrics: ['auto-match','unapplied-cash'] },
+  'disputes': { id: 'disputes', name: 'Dispute Management', desc: 'Dispute backlog, resolution time', metrics: ['dispute-resolve-time'] },
+  'deductions': { id: 'deductions', name: 'Deductions Management', desc: 'Deduction validity and recovery', metrics: ['deduction-validity'] }
+};
+
+const METRICS = {
+  'dso': { id: 'dso', name: 'Standard DSO', level: 'L2', area: 'block-mgmt', val: 47.3, unit: 'd', status: 'alert', bic: 35, median: 39.1, laggard: 60, vsplan: '+1.4d', children: ['block-hold-time','top10-concentration'], signal: 's-coll-01', rootCause: 'Concentration in top accounts and manual block backlog', actions: [ { p: 'p1', title: 'Top-10 outreach', impact: '$2.9M', effort: 'Low' } ] },
+  'block-hold-time': { id: 'block-hold-time', name: 'Block hold time', level: 'L2', area: 'block-mgmt', val: 6.2, unit: 'd', status: 'alert', bic: 1.3, median: 3.2, laggard: 12, vsplan: '+0.4d', children: [], signal: 's-bb-12', rootCause: 'Manual block overrides after policy change', actions: [ { p: 'p1', title: 'Auto-release policy rollback', impact: '$3.2M', effort: 'Medium' } ] },
+  'top10-concentration': { id: 'top10-concentration', name: 'Top-10 concentration', level: 'L3', area: 'block-mgmt', val: 42, unit: '%', status: 'warn', bic: 20, median: 30, laggard: 55, vsplan: '+11pp', children: [], signal: 's-coll-01', rootCause: 'Skewed customer mix', actions: [ { p: 'p2', title: 'Segmented payment terms', impact: '$1.1M', effort: 'Low' } ] },
+  'auto-match': { id: 'auto-match', name: 'Auto-match rate', level: 'L2', area: 'cash-app', val: 38, unit: '%', status: 'warn', bic: 85, median: 60, laggard: 30, vsplan: '-2pp', children: ['unapplied-cash'], signal: 's-cash-01', rootCause: 'Remittance parsing gaps', actions: [ { p: 'p1', title: 'Add remittance parser rules', impact: '27pp', effort: 'Medium' } ] },
+  'unapplied-cash': { id: 'unapplied-cash', name: 'Unapplied cash', level: 'L3', area: 'cash-app', val: 9.8, unit: '%', status: 'warn', bic: 3, median: 6, laggard: 15, vsplan: '+1.2pp', children: [], signal: 's-cash-01', rootCause: 'Portal file format variance', actions: [ { p: 'p2', title: 'Lockbox format mapping', impact: '$0.7M', effort: 'Low' } ] },
+  'dispute-resolve-time': { id: 'dispute-resolve-time', name: 'Dispute resolution time', level: 'L2', area: 'disputes', val: 25, unit: 'd', status: 'warn', bic: 12, median: 18, laggard: 40, vsplan: '+3d', children: [], signal: 's-dispute-01', rootCause: 'Investigator capacity and missing evidence', actions: [ { p: 'p1', title: 'Automate claim classification', impact: '-8d', effort: 'Medium' } ] },
+  'deduction-validity': { id: 'deduction-validity', name: 'Deduction validity rate', level: 'L2', area: 'deductions', val: 7, unit: '%', status: 'warn', bic: 40, median: 18, laggard: 5, vsplan: '+1pp', children: [], signal: 's-ded-01', rootCause: 'Missing promo matching', actions: [ { p: 'p2', title: 'Trade promo matcher', impact: '$0.8M', effort: 'High' } ] }
+};
+
+function renderAreaList() {
+  return Object.values(METRIC_AREAS).map(area => {
+    const metrics = area.metrics.map(id => METRICS[id]);
+    return `<div class="card" style="margin-bottom:12px;"><div class="eyebrow">${area.name}</div><div style="display:flex; gap:12px; margin-top:8px;">${metrics.map(m => `<div style="flex:1; padding:10px; border-radius:6px; background:var(--bg-2);"><div style="font-weight:600;">${m.name}</div><div class="meta" style="margin-top:6px;">${m.val}${m.unit}</div><div style="margin-top:8px;"><button class="btn-text" onclick="openMetric('${m.id}')">Drill into metric ›</button></div></div>`).join('')}</div></div>`;
+  }).join('');
+}
+
+function goToMetricArea(id) {
+  STATE.metricArea = id;
+  navTo('metrics');
+}
+
+function openMetric(id) {
+  STATE.selectedMetric = id;
+  renderPage();
+  document.querySelector('.main').scrollTop = 0;
+}
+
+function closeMetric() {
+  STATE.selectedMetric = null;
+  renderPage();
+  document.querySelector('.main').scrollTop = 0;
+}
+
+function renderMetricDetail(id) {
+  const m = METRICS[id];
+  if (!m) return `<div class="page">Metric not found</div>`;
+  const area = METRIC_AREAS[m.area];
+  // small sparkline using benchmarks
+  const spark = generateSpark(m);
+  return `<div class="page"><div style="margin-bottom:10px;"><a onclick="closeMetric()">← Back to metrics</a></div><div class="eyebrow">${area.name}</div><h2 style="font-family:var(--serif);">${m.name}</h2><div style="margin-top:8px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;"><div class="card card-tight"><div class="meta">Current</div><div style="font-family:var(--serif); font-size:20px; font-weight:700; margin-top:6px;">${m.val}${m.unit}</div></div><div class="card card-tight"><div class="meta">Status</div><div style="font-weight:700; margin-top:6px;">${m.status.toUpperCase()}</div></div><div class="card card-tight" style="display:flex; align-items:center; gap:12px;"><div><div class="meta">Distribution</div>${spark}</div></div></div><div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;"><div class="card" style="flex:1; min-width:280px;"><div class="meta">Benchmarks</div><div style="margin-top:8px;" class="bench-grid"><div class="card card-tight"><div class="meta">Best-in-class</div><div style="font-weight:700; margin-top:6px;">${m.bic}${m.unit || ''}</div></div><div class="card card-tight"><div class="meta">Median</div><div style="font-weight:700; margin-top:6px;">${m.median}${m.unit || ''}</div></div><div class="card card-tight"><div class="meta">Laggard</div><div style="font-weight:700; margin-top:6px;">${m.laggard}${m.unit || ''}</div></div></div></div><div class="card" style="min-width:320px;"><div class="meta">Root cause</div><div style="margin-top:8px; color:var(--ink-2);">${m.rootCause}</div><div style="margin-top:8px;"><div class="meta">Recommended actions</div>${m.actions.map(a=>`<div style="margin-top:8px;"><b>${a.title}</b> · Impact: ${a.impact} · Effort: ${a.effort}</div>`).join('')}</div></div></div><div style="margin-top:16px;">${renderContextFooter()}</div></div>`;
+}
+
+function generateSpark(m) {
+  // normalize values to simple 4-bar spark (bic, median, current, laggard)
+  const vals = [m.bic || 0, m.median || 0, m.val || 0, m.laggard || 0];
+  const max = Math.max(...vals, 1);
+  const bars = vals.map((v,i)=>{
+    const h = Math.round((v / max) * 36) + 4; // ensure minimal height
+    const color = i===2 ? 'var(--accent)' : i===0 ? 'var(--ok)' : i===3 ? 'var(--warn)' : 'var(--ink-3)';
+    return `<rect x="${i*36}" y="${44-h}" width="24" height="${h}" rx="3" fill="${color}"></rect>`;
+  }).join('');
+  return `<svg class="metric-spark" viewBox="0 0 144 48" aria-hidden="true">${bars}</svg><div class="tiny muted" style="margin-top:6px;">BIC · Median · Current · Laggard</div>`;
+}
+
+function renderAgent() {
+  const mode = STATE.agentMode || 'catalog';
+  return `<div class="page fade-in">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Agent · execution layer</div>
+        <h1 class="h1">Execution agents and conversational assistant</h1>
+      </div>
+      <div class="meta">Pre-built agents for Collections, Cash App, Disputes, Deductions</div>
+    </div>
+    <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+      <button class="btn ${mode==='catalog'?'btn-primary':''}" onclick="setAgentMode('catalog')">Catalog</button>
+      <button class="btn ${mode==='chat'?'btn-primary':''}" onclick="setAgentMode('chat')">Ask the agent</button>
+    </div>
+    ${mode === 'catalog' ? renderAgentCatalog() : renderAgentChat()}
+  </div>`;
+}
+
+const EXECUTION_AGENTS = {
+  'agt-coll-01': { id:'agt-coll-01', name:'Worklist Prioritizer', desc:'Prioritises collector worklists by recoverable WC and probability-to-pay', state:'armed', confidence:78, historicalFires:124, approvalClass:'Controller', icon:'zap', armedImpact:'$2.9M', armedSource:'s-coll-01', reversible:'Yes · manual revert' },
+  'agt-bb-01': { id:'agt-bb-01', name:'Block Remediator', desc:'Proposes manual block releases and auto-release fixes with policy guardrails', state:'armed', confidence:84, historicalFires:62, approvalClass:'Controller', icon:'shield', armedImpact:'$3.8M', armedSource:'s-bb-12', reversible:'Yes · write-back audit' },
+  'agt-coll-02': { id:'agt-coll-02', name:'Promise-to-Pay Tracker', desc:'Tracks PTP commitments and pushes follow-ups to collectors', state:'dormant', confidence:71, historicalFires:41, approvalClass:'Ops', icon:'check', armedImpact:'$0.9M', armedSource:null, reversible:'N/A' },
+  'agt-cash-01': { id:'agt-cash-01', name:'Remittance Parser', desc:'Parses lockbox and portal remits to reduce unapplied cash', state:'armed', confidence:72, historicalFires:86, approvalClass:'Ops', icon:'layers', armedImpact:'$1.1M', armedSource:'s-cash-01', reversible:'N/A' },
+  'agt-cash-02': { id:'agt-cash-02', name:'Multi-Invoice Matcher', desc:'ML matcher for complex remits and short-pay handling', state:'dormant', confidence:69, historicalFires:34, approvalClass:'Ops', icon:'link', armedImpact:'$1.4M', armedSource:null, reversible:'Yes · reversal flow' },
+  'agt-dispute-01': { id:'agt-dispute-01', name:'Dispute Classifier', desc:'Classifies disputes and routes to investigators with evidence summary', state:'armed', confidence:76, historicalFires:53, approvalClass:'Legal', icon:'brain', armedImpact:'$1.2M', armedSource:'s-dispute-01', reversible:'N/A' },
+  'agt-ded-01': { id:'agt-ded-01', name:'Deduction Validity Predictor', desc:'Predicts trade vs non-trade and suggests recovery actions', state:'dormant', confidence:70, historicalFires:29, approvalClass:'Ops', icon:'zap', armedImpact:'$0.8M', armedSource:'s-ded-01', reversible:'N/A' }
+};
+
+function setAgentMode(m) { STATE.agentMode = m; renderPage(); }
+
+function renderAgentCatalog() {
+  const list = Object.values(EXECUTION_AGENTS);
+  return `<div style="display:flex; flex-direction:column; gap:12px;">${list.map(a=>`<div class="card" style="display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700;">${a.name} <span class="tiny muted">${a.id}</span></div><div class="meta" style="margin-top:6px;">${a.desc}</div><div class="tiny muted" style="margin-top:6px;">Confidence ${a.confidence}% · Fires ${a.historicalFires.toLocaleString()}</div></div><div style="text-align:right;"><div class="meta">${a.state}</div>${a.armedSource?`<button class="btn-text" onclick="openSignal('${a.armedSource}')">View signal ›</button>`:''}</div></div>`).join('')}</div>`;
+}
+
+function renderAgentChat() {
+  return `<div style="display:flex; flex-direction:column; gap:12px;"><div class="card"><div class="meta">Context · Collections · last 90 days</div></div><div id="conversation">${renderConversation()}</div><div style="display:flex; gap:8px;"><input id="agent-q" style="flex:1; padding:10px; border:0.5px solid var(--line); border-radius:6px;" placeholder="Ask about a metric or pattern"><button class="btn btn-primary" onclick="sendAgent()">Send</button></div></div>`;
+}
+
+function renderConversation() {
+  STATE.conversation = STATE.conversation || [ { role:'agent', html:'<p>Ask me about DSO, unapplied cash, or a customer cohort.</p>' } ];
+  return STATE.conversation.map(m => m.role==='user' ? `<div style="text-align:right; margin-bottom:8px;"><div style="display:inline-block; background:var(--accent); color:#fff; padding:8px 12px; border-radius:12px;">${m.text}</div></div>` : `<div style="text-align:left; margin-bottom:8px;"><div style="display:inline-block; background:var(--bg-2); padding:8px 12px; border-radius:12px; color:var(--ink-2);">${m.html || m.text}</div></div>` ).join('');
+}
+
+function sendAgent() {
+  const q = document.getElementById('agent-q').value.trim();
+  if (!q) return; 
+  STATE.conversation.push({ role:'user', text: q });
+  STATE.conversation.push({ role:'agent', html: `<p>In-demo response: the accelerator would ground this in canonical AR data and patterns. Try: "Show top 10 customers by past-due"</p>` });
+  renderPage();
+}
+
+function renderRoadmap() {
+  return `<div class="page fade-in">
+    <div class="vision-hero">
+      <div class="eyebrow">Roadmap · 18 months to autonomous AR</div>
+      <h1 class="h1">A sequenced journey, not a big bang.</h1>
+      <p class="lede">Each phase compounds on the prior. The trust foundation comes first because every diagnostic depends on numbers that reconcile to the GL.</p>
+    </div>
+
+    <div style="margin-top:18px; display:flex; flex-direction:column; gap:12px;">
+      ${ROADMAP.map(p => `<div class="card"><div class="meta">${p.phase} · ${p.period}</div><h3 style="margin-top:6px;">${p.title}</h3><div style="margin-top:8px; color:var(--ink-2);">${p.desc}</div><div style="margin-top:8px;">${p.items.map(i=>`<div style="margin-top:6px;"><b>${i.label}:</b> ${i.text}</div>`).join('')}</div>`).join('')}
+    </div>
+  </div>`;
+}
+
+const ROADMAP = [
+  { phase:'Phase 1', period:'0-3 months', title:'Trust foundation', desc:'SAP connections, bronze→silver canonical, reconciliation harness', items:[ { label:'Deliverable', text:'SAP read-only connection, 18 tables' }, { label:'Milestone', text:'Reconciliation <0.5% variance' } ], prize:'Reconciled AR base' },
+  { phase:'Phase 2', period:'3-6 months', title:'Collections & Cash App', desc:'Worklist prioritization, remittance parsing, auto-match uplift', items:[ { label:'Deliverable', text:'Worklist prioritizer agent' }, { label:'Milestone', text:'Auto-match > 60%' } ], prize:'Reduced analyst hours' },
+  { phase:'Phase 3', period:'6-12 months', title:'Disputes & Deductions', desc:'Capture/classify/resolve workflows and validity predictors', items:[ { label:'Deliverable', text:'Dispute root-cause agent' }, { label:'Milestone', text:'Dispute resolution < 12 days' } ], prize:'Improved net recovery' },
+  { phase:'Phase 4', period:'12-18 months', title:'Agentic execution', desc:'Pre-sized, policy-checked actions with audited write-back', items:[ { label:'Deliverable', text:'Autonomous action pipeline' }, { label:'Milestone', text:'Closed-loop learning' } ], prize:'Autonomy + continuous attestation' }
+];
+
+function renderConfigure() {
+  return `<div class="page fade-in">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Configure · trust foundation</div>
+        <h1 class="h1">SAP AR tables, data lineage, reconciliation, and governance.</h1>
+      </div>
+      <div class="meta">Connected systems · table freshness · field mappings</div>
+    </div>
+
+    <div style="display:flex; gap:12px;">
+      <div style="flex:0 0 360px;">
+        <div class="card">
+          <div class="meta">SAP connection</div>
+          <div style="margin-top:8px; font-weight:700;">Production · ERP-PROD-1000</div>
+          <div class="tiny muted" style="margin-top:6px;">S/4HANA 2023 · RFC display-only</div>
+          <div style="margin-top:10px;"><button class="btn btn-secondary">Test connection</button></div>
+        </div>
+      </div>
+      <div style="flex:1;">
+        <div class="card">
+          <div class="meta">SAP tables · connected</div>
+          <div style="margin-top:8px;">
+            <table style="width:100%; border-collapse:collapse;">
+              <thead><tr><th style="text-align:left; padding:8px;">Table</th><th style="text-align:left; padding:8px;">Source</th><th style="text-align:left; padding:8px;">Last sync</th></tr></thead>
+              <tbody>
+                <tr><td style="padding:8px; font-family:var(--mono); color:var(--accent);">BSID</td><td style="padding:8px;">AR open items</td><td style="padding:8px;">12 min ago</td></tr>
+                <tr><td style="padding:8px; font-family:var(--mono); color:var(--accent);">BSEG</td><td style="padding:8px;">FI line items</td><td style="padding:8px;">12 min ago</td></tr>
+                <tr><td style="padding:8px; font-family:var(--mono); color:var(--accent);">VBRK</td><td style="padding:8px;">Billing header</td><td style="padding:8px;">12 min ago</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div style="margin-top:12px;">${renderContextFooter()}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function setTheme(t) {
+  STATE.theme = t;
+  if (t === 'dark') document.body.classList.add('dark');
+  else document.body.classList.remove('dark');
+  renderShell();
+}
+
+function openModal(id) {
+  alert('Modal placeholder: ' + id);
+}
+
+renderShell();
+</script>
+</body>
+</html>
