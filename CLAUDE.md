@@ -117,9 +117,13 @@ Payment terms: T052, T052S
 Key SaaS players across modules: HighRadius, Billtrust, Esker, Serrala, BlackLine, Versapay, Sidetrade, Quadient, Kolleno, iNymbus, Transformance ClaimIQ
 
 ### Target KPIs (current-state → target; data is tuned to these)
-- DSO: ~49 days → 35 days
-- CEI (Collection Effectiveness Index): ~85% → 90%
-- Auto-match rate (Cash App): ~52% → 85%
+Synthetic book is calibrated to Accuray's published scale: open AR ~$102M, DSO ~83,
+implied annual revenue ~$450M (Accuray FY24 ≈ $446M). Customer base = real cancer
+centers / academic medical centers / health systems / distributors / government across
+Americas · EMEA · APAC · Japan · China.
+- DSO: ~83 days → 65 days (-22%)
+- CEI (Collection Effectiveness Index): ~81% → 90%
+- Auto-match rate (Cash App): ~39% → 85%
 - Dispute resolution time: 25 days → 12 days (-52%)
 - Deduction auto-validation: 0% → 40%+
 - Net recovery rate: +30% improvement

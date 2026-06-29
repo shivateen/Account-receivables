@@ -6,7 +6,10 @@
       "Bash(node --check web/assets/js/common.js)",
       "Bash(timeout 90 node tests/pmap.mjs)",
       "Bash(timeout 100 node tests/o2c.mjs)",
-      "Bash(timeout 80 node tests/kpi.mjs)"
+      "Bash(timeout 80 node tests/kpi.mjs)",
+      "Bash(powershell.exe -NoProfile -Command '$c=Get-NetTCPConnection -LocalPort 8088 -State Listen -ErrorAction SilentlyContinue; if\\($c\\){$c|%{Stop-Process -Id $_.OwningProcess -Force}}')",
+      "Bash(node scripts/export-static.mjs)",
+      "Bash(python -c \"import json;d=json.load\\(open\\('../docs/api-static/metrics.json'\\)\\);print\\('docs Total AR  \\\\$'+format\\(round\\(d['totalAR']\\),','\\),'· DSO',d['kpis']['dso']['val'],'-> target',d['kpis']['dso']['target']\\)\")"
     ]
   }
 }

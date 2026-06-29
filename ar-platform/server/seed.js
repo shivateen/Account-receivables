@@ -105,7 +105,7 @@ function seed() {
     custIds.push(cid);
     const riskScore = { Low: ri(8, 28), Medium: ri(30, 58), High: ri(60, 82), Critical: ri(83, 96) }[riskTier];
     const creditLimit = LARGE.has(segment) ? ri(20, 90) * 1e6 : ri(6, 30) * 1e6;
-    const dso = ri(55, 85);
+    const dso = ri(74, 99); // Accuray-scale: capital-equipment + international → high DSO (~85 wtd)
     const fn = pick(FIRST), ln = pick(LAST);
     const terms = pick(TERMS);
     insCust.run(cid, name, `0001${String(100000 + i)}`, segment, industry, region, riskTier, riskScore,
@@ -113,18 +113,18 @@ function seed() {
       `${fn} ${ln}`, `${fn.toLowerCase()}.${ln.toLowerCase()}@${name.split(/[ .]/)[0].toLowerCase()}.com`,
       portal, iso(daysAgo(ri(400, 1400))));
 
-    // Invoices
-    const nInv = ri(4, 10);
+    // Invoices — more per account to reach Accuray-scale AR (~$105M open book)
+    const nInv = ri(6, 13);
     invByCust[cid] = [];
     const termDays = parseInt(terms.replace(/\D+/g, '').slice(-2)) || 45;
     for (let k = 0; k < nInv; k++) {
-      const iid = id('INV', i * 10 + k + 1);
+      const iid = id('INV', i * 100 + k + 1);
       // Bias issue dates toward recent so the book is current-heavy with a past-due tail
       const issue = daysAgo(Math.floor(Math.pow(rnd(), 2.2) * 165) + 2);
       const due = new Date(issue.getTime() + termDays * 86400000);
       const dpd = Math.round((NOW - due) / 86400000);
       const prod = pickProduct();
-      const amount = money(prod[1], prod[2]);
+      const amount = Math.round(money(prod[1], prod[2]) * 1.25); // scale to Accuray-scale book (~$100M AR ⇒ ~$446M implied revenue)
       // Payment likelihood rises with invoice age and lower customer risk
       const lowRisk = riskTier === 'Low' || riskTier === 'Medium';
       const paidProb = 0.28 + (dpd > 0 ? 0.24 : 0.05) + (lowRisk ? 0.14 : 0);
@@ -478,7 +478,7 @@ function seed() {
   S('erp.posting_bapi', 'BAPI_ACC_DOCUMENT_POST', 'erp', 'Posting BAPI');
   S('erp.connection', 'connected', 'erp', 'Connection status');
   S('general.base_currency', 'USD', 'general', 'Base currency');
-  S('general.dso_target', 50, 'general', 'DSO target (days)');
+  S('general.dso_target', 65, 'general', 'DSO target (days)');
   S('general.theme', 'light', 'general', 'UI theme');
   // ROI model assumptions (drive the per-module benefit calculators)
   S('roi.analyst_cost', 95000, 'roi', 'Loaded AR analyst cost ($/yr)');
